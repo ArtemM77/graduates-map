@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Карта выпускников</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+<div id="map" style="width: 100%; height: 100vh;"></div>
+<script>
+  var map = L.map('map').setView([56.5, 45], 5);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+
+    L.marker([56.302312, 44.076213]).addTo(map)
+      .bindPopup('\n      <b>Анастасия Замятина</b><br>\n      <b>ВетЭко</b><br>\n      Нижний Новгород, ул. Родионова193/1<br>\n      📞 790124878297<br>\n      🌐 <a href="https://vet-eko.ru/" target="_blank">https://vet-eko.ru/</a>\n    ');
+    
+    L.marker([53.87379, 27.502033]).addTo(map)
+      .bindPopup('\n      <b>Анастасия Манторова</b><br>\n      <b>ВЦ А.Базылевского </b><br>\n      Минск ул. Железнодорожная 31 к 1<br>\n      📞 375 33 326-30-00\xa0<br>\n      🌐 <a href="https://minsk.vet-centre.by" target="_blank">https://minsk.vet-centre.by</a>\n    ');
+    
+    L.marker([56.141054, 40.416063]).addTo(map)
+      .bindPopup('\n      <b>Мария Богачева</b><br>\n      <b>Добрый доктор</b><br>\n      Владимир, Луначарского 23<br>\n      📞 74922771424<br>\n      🌐 <a href="https://dobrydoctora.ru/" target="_blank">https://dobrydoctora.ru/</a>\n    ');
+    
+    L.marker([53.206509, 50.13278]).addTo(map)
+      .bindPopup('\n      <b>Александра Каменская</b><br>\n      <b>Крокозоо</b><br>\n      Самара пр Ленина 1<br>\n      📞 79677620010<br>\n      🌐 <a href="https://crocozoo.ru/" target="_blank">https://crocozoo.ru/</a>\n    ');
+    
+    L.marker([59.972212, 30.435107]).addTo(map)
+      .bindPopup('\n      <b>Марина Сажнева</b><br>\n      <b>Клиника доктора Гиль</b><br>\n      СПб, пр. Энергетиков 70 корп 1<br>\n      📞 79311094880<br>\n      🌐 <a href="https://gilvet.ru/" target="_blank">https://gilvet.ru/</a>\n    ');
+    
+    L.marker([59.924501, 30.484303]).addTo(map)
+      .bindPopup('\n      <b>Анастасия Кормакова</b><br>\n      <b>Др. Петс</b><br>\n      СПб, ул. Коллонтай 30 корп 1Б<br>\n      📞 78126467626<br>\n      🌐 <a href="https://dr-pets.ru/" target="_blank">https://dr-pets.ru/</a>\n    ');
+    
+    L.marker([59.850615, 30.343687]).addTo(map)
+      .bindPopup('\n      <b>Татьяна Калмыкова</b><br>\n      <b>Вега</b><br>\n      СПб ул. Пулковская 11 к 1<br>\n      📞 78124997701<br>\n      🌐 <a href="https://vegavet.spb.ru/" target="_blank">https://vegavet.spb.ru/</a>\n    ');
+    
+    L.marker([54.993255, 82.892859]).addTo(map)
+      .bindPopup('\n      <b>Анна Василевская</b><br>\n      <b>ИнТерра</b><br>\n      Новосибирск ул. Выставочная 15 к 1<br>\n      📞 73833830949<br>\n      🌐 <a href="https://vet-interra.ru/" target="_blank">https://vet-interra.ru/</a>\n    ');
+    
+    L.marker([54.993255, 82.892859]).addTo(map)
+      .bindPopup('\n      <b>Светлана Сенчукова</b><br>\n      <b>ИнТерра</b><br>\n      Новосибирск ул. Выставочная 15 к 1<br>\n      📞 73833830949<br>\n      🌐 <a href="https://vet-interra.ru/" target="_blank">https://vet-interra.ru/</a>\n    ');
+    
+    L.marker([54.993323, 73.415025]).addTo(map)
+      .bindPopup('\n      <b>Ирина Сокирко</b><br>\n      <b>Авета</b><br>\n      Омск ул. 10 лет Октября 141 к 3<br>\n      📞 79136718689<br>\n      🌐 <a href="https://avetaomsk.orgs.biz/" target="_blank">https://avetaomsk.orgs.biz/</a>\n    ');
+    
+    L.marker([56.959141, 24.032822]).addTo(map)
+      .bindPopup('\n      <b>Алексей Смычков</b><br>\n      <b>Калнберз</b><br>\n      Slokas iela 163a , Rīga, LV-1067, Латвия<br>\n      📞 371\xa067425686<br>\n      🌐 <a href="www.vet-klinika.lv" target="_blank">www.vet-klinika.lv</a>\n    ');
+    
+    L.marker([51.653738, 39.268721]).addTo(map)
+      .bindPopup('\n      <b>Татьяна Прохорова</b><br>\n      <b>Здоровье Животных</b><br>\n      Воронеж ул. Волгоградская 44<br>\n      📞 79525566588<br>\n      🌐 <a href="https://zdorovet.ru/" target="_blank">https://zdorovet.ru/</a>\n    ');
+    
+    L.marker([60.037744, 30.346037]).addTo(map)
+      .bindPopup('\n      <b>Екатерина Слижевская</b><br>\n      <b>Альтервет</b><br>\n      Санкт-Петербург пр. Художников 11<br>\n      📞 78126144040<br>\n      🌐 <a href="https://altervet.com/" target="_blank">https://altervet.com/</a>\n    ');
+    
+</script>
+</body>
+</html>
