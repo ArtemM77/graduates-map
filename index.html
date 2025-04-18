@@ -22,28 +22,30 @@
     }).addTo(map);
 
     // Структура HTML карточки врача
-    function createPopupHTML(doctor) {
-  return `
-    <div style="display: flex; gap: 20px; width: 600px;">
-      <div style="flex: 1;">
-        <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />
-        <div style="margin-top: 10px; font-size: 13px;">
-          📍 ${doctor.address}
-          <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" title="Открыть в Яндекс.Навигаторе">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Yandex.Navigator_icon.svg/48px-Yandex.Navigator_icon.svg.png"
-                 alt="Навигатор" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;" />
-          </a><br>
-          📞 <a href="tel:${doctor.phone}">${doctor.phone}</a><br>
-          🌐 <a href="${doctor.site}" target="_blank">${doctor.site}</a>
-        </div>
-      </div>
-      <div style="flex: 2;">
-        <h3 style="margin: 0;">${doctor.name}</h3>
-        <p style="margin: 0;"><strong>${doctor.title}</strong><br>${doctor.clinic}</p>
-        <p style="margin-top: 10px;"><strong>Услуги по репродукции:</strong><br>${doctor.services}</p>
+    return `
+  <div style="display: flex; gap: 20px; width: max-content; max-width: 400px;">
+    <div style="flex: 1;">
+      <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />
+      <div style="margin-top: 10px; font-size: 13px;">
+        📍 <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank">
+          ${doctor.address}
+        </a>
+        <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" 
+           title="Открыть маршрут в Яндекс.Навигаторе">
+          <img src="https://artemm77.github.io/graduates-map/yandex.png"
+               alt="Навигатор" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;" />
+        </a><br>
+        📞 <a href="tel:${doctor.phone}">${doctor.phone}</a><br>
+        🌐 <a href="${doctor.site}" target="_blank">${doctor.site}</a>
       </div>
     </div>
-  `;
+    <div style="flex: 2;">
+      <h3 style="margin: 0;">${doctor.name}</h3>
+      <p style="margin: 0;"><strong>${doctor.title}</strong><br>${doctor.clinic}</p>
+      <p style="margin-top: 10px;"><strong>Услуги по репродукции:</strong><br>${doctor.services}</p>
+    </div>
+  </div>
+`;
 }
 
     // Массив данных врачей (сгенерировано из Excel)
