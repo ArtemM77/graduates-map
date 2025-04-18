@@ -21,29 +21,46 @@
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Структура HTML карточки врача
-   function createPopupHTML(doctor) {
+// Структура HTML карточки врача
+function createPopupHTML(doctor) {
   return `
-    <div style="display: flex; gap: 20px; width: max-content; max-width: 420px;">
+    <div style="display: flex; gap: 20px; width: max-content; max-width: 300px;">
+      
+      <!-- Левая часть карточки: фото + контакты -->
       <div style="flex: 1;">
         <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />
         <div style="margin-top: 10px; font-size: 13px;">
-          📍 <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank">${doctor.address}</a>
-          <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" 
-             title="Открыть маршрут в Яндекс.Навигаторе">
-            <img src="https://artemm77.github.io/graduates-map/yandex.png"
-                 alt="Навигатор" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;" />
-          </a><br>
+          📍 <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank">${doctor.address}</a><br>
           📞 <a href="tel:${doctor.phone}">${doctor.phone}</a><br>
           🌐 <a href="${doctor.site}" target="_blank">${doctor.site}</a>
         </div>
       </div>
+
+      <!-- Правая часть карточки: ФИО, услуги, кнопка навигатора -->
       <div style="flex: 2;">
         <h3 style="margin: 0;">${doctor.name}</h3>
         <p style="margin: 0;"><strong>${doctor.title}</strong><br>${doctor.clinic}</p>
-        <p style="margin-top: 10px;"><strong>Услуги по репродукции:</strong><br>${doctor.services}</p>
+
+        <p style="margin-top: 10px;">
+          <strong>Услуги по репродукции:</strong><br>
+          ${doctor.services}
+        </p>
+
+        <!-- Кнопка навигатора и подпись -->
+        <div style="margin-top: 20px; text-align: center;">
+          <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" 
+             title="Открыть маршрут в Яндекс.Навигаторе">
+            <img src="https://artemm77.github.io/graduates-map/yandex.png"
+                 alt="Навигатор"
+                 style="width: 50px; height: 50px;" />
+          </a>
+          <div style="font-size: 12px; color: #666; margin-top: 5px;">
+            Маршрут в Навигаторе
+          </div>
+        </div>
       </div>
-    </div>
+
+    </div> <!-- 🔴 ← вот этот внешний div был не закрыт -->
   `;
 }
 
