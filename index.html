@@ -2,108 +2,80 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>К КОМУ ОБРАТИТЬСЯ ДЛЯ ЗАМОРОЗКИ СПЕРМЫ ЖИВОТНЫХ?</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        #map {
-            width: 100%;
-            height: 100vh;
-        }
+        #map { width: 100%; height: 100vh; }
         .popup-content {
-            display: flex;
-            flex-direction: row;
             font-family: Arial, sans-serif;
-            gap: 20px;
-            max-width: 500px;
+            width: 350px;
         }
-        .popup-photo {
-            width: 150px;
-            height: 150px;
+        .popup-content img {
+            width: 120px;
+            height: 120px;
             object-fit: cover;
-            border-radius: 6px;
+            float: left;
+            margin-right: 10px;
         }
-        .popup-text {
-            font-size: 14px;
-            line-height: 1.4;
+        .popup-content div {
+            overflow: hidden;
         }
-        .popup-text b {
-            font-weight: bold;
-        }
-        .popup-text a {
-            color: #1a73e8;
+        .popup-content a {
+            color: blue;
             text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script>
-        const map = L.map("map").setView([56.8, 60.6], 4);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 18,
-        }).addTo(map);
+<div id="map"></div>
 
-        fetch("doctors.csv")
-            .then((response) => response.text())
-            .then((csvText) => {
-                const parsed = Papa.parse(csvText, {
-                    header: true,
-                    delimiter: ";",
-                    skipEmptyLines: true,
-                });
+<script>
+    var map = L.map('map').setView([55.751244, 37.618423], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
 
-                parsed.data.forEach((row) => {
-                    const coords = row["Координаты"].split(",").map((x) => parseFloat(x.trim()));
-                    const doctorNames = row["ФИО"].split("/");
-                    const doctorPhotos = row["Фотография доктора"].split("/");
-                    const clinicLogo = row["Логотип клиники"];
-                    const address = row["Адрес"];
-                    const phone = row["Телефон"];
-                    const website = row["Сайт"];
-                    const title = row["Должность"];
-                    const services = row["Возможности"]
-                        .split("•")
-                        .map((s) => `<li>${s.trim()}</li>`)
-                        .join("");
+    $.get('doctors.csv', function(csvData) {
+        let data = csvData.split("\n").slice(1);
+        data.forEach(function(row) {
+            let cols = row.split(',');
+            if (cols.length < 10) return; // пропускаем некорректные строки
+            
+            let [clinic, address, coords, city, logo, phone, site, services, names, photos] = cols;
+            let latlng = coords.split(';').map(Number);
 
-                    let photoHTML = "";
-                    doctorPhotos.forEach((photo, idx) => {
-                        photoHTML += `
-                            <div style="text-align:center;">
-                                <img src="${photo.trim()}" class="popup-photo" />
-                                <div><b>${doctorNames[idx].trim()}</b></div>
-                            </div>`;
-                    });
-
-                    const html = `
-                        <div class="popup-content">
-                            ${photoHTML}
-                            <div class="popup-text">
-                                <b>${title}</b><br/>
-                                <ul>${services}</ul>
-                                <p><b>Адрес:</b> <a href="https://maps.google.com/?q=${encodeURIComponent(address)}" target="_blank">${address}</a><br/>
-                                <b>Телефон:</b> <a href="tel:${phone}">${phone}</a><br/>
-                                <b>Сайт:</b> <a href="${website}" target="_blank">${website}</a></p>
-                            </div>
-                        </div>`;
-
-                    const icon = L.icon({
-                        iconUrl: clinicLogo.trim(),
-                        iconSize: [60, 80],
-                        iconAnchor: [30, 80],
-                        popupAnchor: [0, -80],
-                    });
-
-                    L.marker(coords, { icon }).addTo(map).bindPopup(html);
-                });
+            let photoHtml = '';
+            photos.split(';').forEach(photo => {
+                photoHtml += `<img src="${photo.trim()}" alt="Фото доктора">`;
             });
-    </script>
+
+            let popupContent = `
+                <div class="popup-content">
+                    ${photoHtml}
+                    <div>
+                        <strong>${names}</strong><br>
+                        ${clinic}<br>
+                        <b>Услуги по репродукции:</b><br>${services}<br>
+                        📍 <a href="https://yandex.ru/maps/?text=${encodeURIComponent(address)}" target="_blank">${address}</a><br>
+                        📞 <a href="tel:${phone}">${phone}</a><br>
+                        🌐 <a href="${site}" target="_blank">${site}</a>
+                    </div>
+                </div>`;
+
+            let icon = L.icon({
+                iconUrl: logo.trim(),
+                iconSize: [50, 50],
+                iconAnchor: [25, 50],
+                popupAnchor: [0, -50]
+            });
+
+            L.marker(latlng, {icon: icon}).addTo(map).bindPopup(popupContent);
+        });
+    });
+</script>
 </body>
 </html>
