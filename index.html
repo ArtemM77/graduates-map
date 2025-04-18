@@ -2,119 +2,108 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>К КОМУ ОБРАТИТЬСЯ ДЛЯ ЗАМОРОЗКИ СПЕРМЫ ЖИВОТНЫХ?</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-  <style>
-    html, body, #map {{ height: 100%; margin: 0; }}
-    .doctor-card {{
-        display: flex;
-        flex-direction: row;
-        max-width: 500px;
-        font-family: sans-serif;
-    }}
-    .doctor-photo {{
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 4px;
-        margin-right: 15px;
-    }}
-    .doctor-info {{
-        font-size: 14px;
-    }}
-    .doctor-info h3 {{
-        margin: 0;
-    }}
-    .doctor-info a {{
-        text-decoration: none;
-    }}
-  </style>
+    <meta charset="UTF-8" />
+    <title>К КОМУ ОБРАТИТЬСЯ ДЛЯ ЗАМОРОЗКИ СПЕРМЫ ЖИВОТНЫХ?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
+        .popup-content {
+            display: flex;
+            flex-direction: row;
+            font-family: Arial, sans-serif;
+            gap: 20px;
+            max-width: 500px;
+        }
+        .popup-photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .popup-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .popup-text b {
+            font-weight: bold;
+        }
+        .popup-text a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-  <div id="map"></div>
-  <script>
-    var map = L.map('map').setView([56.5, 45], 5);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {{
-        maxZoom: 18
-    }}).addTo(map);
+    <div id="map"></div>
+    <script>
+        const map = L.map("map").setView([56.8, 60.6], 4);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 18,
+        }).addTo(map);
 
-    function createDoctorCard(data) {{
-        return `
-        <div class="doctor-card">
-            <img class="doctor-photo" src="https://artemm77.github.io/graduates-map/${{data['Фотография доктора'] || 'no-photo.png'}}" />
-            <div class="doctor-info">
-                <h3>${{data['ФИО']}}</h3>
-                <strong>${{data['Должность']}}</strong><br />
-                ${{data['Клиника']}}<br />
-                <p><strong>Услуги по репродукции:</strong><br />${{data['Возможности'].replace(/,/g, '<br />')}}</p>
-                <p>📍 <a href="https://maps.google.com/?q=${{encodeURIComponent(data['Адрес'])}}" target="_blank">${{data['Адрес']}}</a><br />
-                ☎ <a href="tel:${{data['Телефон']}}">${{data['Телефон']}}</a><br />
-                🌐 <a href="${{data['Сайт']}}" target="_blank">${{data['Сайт']}}</a></p>
-            </div>
-        </div>`;
-    }}
+        fetch("doctors.csv")
+            .then((response) => response.text())
+            .then((csvText) => {
+                const parsed = Papa.parse(csvText, {
+                    header: true,
+                    delimiter: ";",
+                    skipEmptyLines: true,
+                });
 
-    fetch('doctors.csv')
-      .then(response => response.text())
-      .then(csvText => {{
-        Papa.parse(csvText, {{
-          header: true,
-          skipEmptyLines: true,
-          complete: function(results) {{
-            const grouped = {{}};
-            results.data.forEach(row => {{
-              if (!row['Координаты']) return;
-              const key = row['Координаты'].trim();
-              if (!grouped[key]) grouped[key] = [];
-              grouped[key].push(row);
-            }});
+                parsed.data.forEach((row) => {
+                    const coords = row["Координаты"].split(",").map((x) => parseFloat(x.trim()));
+                    const doctorNames = row["ФИО"].split("/");
+                    const doctorPhotos = row["Фотография доктора"].split("/");
+                    const clinicLogo = row["Логотип клиники"];
+                    const address = row["Адрес"];
+                    const phone = row["Телефон"];
+                    const website = row["Сайт"];
+                    const title = row["Должность"];
+                    const services = row["Возможности"]
+                        .split("•")
+                        .map((s) => `<li>${s.trim()}</li>`)
+                        .join("");
 
-            for (const key in grouped) {{
-              const [lat, lon] = key.split(',').map(parseFloat);
-              const group = grouped[key];
-              const markerIcon = L.icon({{
-                iconUrl: 'https://artemm77.github.io/graduates-map/' + group[0]['Логотип клиники'],
-                iconSize: [60, 90],
-                iconAnchor: [30, 90],
-                popupAnchor: [0, -90]
-              }});
+                    let photoHTML = "";
+                    doctorPhotos.forEach((photo, idx) => {
+                        photoHTML += `
+                            <div style="text-align:center;">
+                                <img src="${photo.trim()}" class="popup-photo" />
+                                <div><b>${doctorNames[idx].trim()}</b></div>
+                            </div>`;
+                    });
 
-              let photosHTML = '';
-              if (group.length === 1) {{
-                photosHTML = `<img class='doctor-photo' src='https://artemm77.github.io/graduates-map/${{group[0]['Фотография доктора']}}' />`;
-              }} else {{
-                photosHTML = group.map(doc => `
-                  <div style="display:flex;align-items:center;margin-bottom:5px;">
-                    <img class='doctor-photo' src='https://artemm77.github.io/graduates-map/${{doc['Фотография доктора']}}' />
-                    <div class='doctor-info'><strong>${{doc['ФИО']}}</strong></div>
-                  </div>`).join('');
-              }}
+                    const html = `
+                        <div class="popup-content">
+                            ${photoHTML}
+                            <div class="popup-text">
+                                <b>${title}</b><br/>
+                                <ul>${services}</ul>
+                                <p><b>Адрес:</b> <a href="https://maps.google.com/?q=${encodeURIComponent(address)}" target="_blank">${address}</a><br/>
+                                <b>Телефон:</b> <a href="tel:${phone}">${phone}</a><br/>
+                                <b>Сайт:</b> <a href="${website}" target="_blank">${website}</a></p>
+                            </div>
+                        </div>`;
 
-              const popupContent = `
-                <div class='doctor-card'>
-                  <div style='display:flex;flex-direction:column'>${photosHTML}</div>
-                  <div class='doctor-info'>
-                    <strong>${{group[0]['Должность']}}</strong><br />
-                    ${{group[0]['Клиника']}}<br />
-                    <p><strong>Услуги по репродукции:</strong><br />${{group[0]['Возможности'].replace(/,/g, '<br />')}}</p>
-                    <p>📍 <a href="https://maps.google.com/?q=${{encodeURIComponent(group[0]['Адрес'])}}" target="_blank">${{group[0]['Адрес']}}</a><br />
-                    ☎ <a href="tel:${{group[0]['Телефон']}}">${{group[0]['Телефон']}}</a><br />
-                    🌐 <a href="${{group[0]['Сайт']}}" target="_blank">${{group[0]['Сайт']}}</a></p>
-                  </div>
-                </div>
-              `;
+                    const icon = L.icon({
+                        iconUrl: clinicLogo.trim(),
+                        iconSize: [60, 80],
+                        iconAnchor: [30, 80],
+                        popupAnchor: [0, -80],
+                    });
 
-              L.marker([lat, lon], {{ icon: markerIcon }})
-                .addTo(map)
-                .bindPopup(popupContent);
-            }}
-          }}
-        }});
-      }});
-  </script>
+                    L.marker(coords, { icon }).addTo(map).bindPopup(html);
+                });
+            });
+    </script>
 </body>
 </html>
