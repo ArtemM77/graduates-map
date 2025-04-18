@@ -10,10 +10,9 @@
         #map { height: 100vh; }
         .popup-content {
             display: flex;
-            flex-direction: row;
-            max-width: 500px;
             gap: 10px;
             font-family: sans-serif;
+            max-width: 520px;
         }
         .popup-content img.doctor-photo {
             width: 120px;
@@ -23,6 +22,7 @@
         }
         .popup-text {
             font-size: 14px;
+            line-height: 1.4;
         }
         .popup-text h3 {
             margin: 0 0 5px 0;
@@ -38,213 +38,211 @@
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        var map = L.map('map').setView([55.751244, 37.618423], 5);
+        var map = L.map('map').setView([56.5, 45], 5);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Данные по врачам
         const doctors = [
             
             {
-                name: "Анастасия Замятина",
-                role: "Руководитель клиники, репродуктолог",
-                clinic: "ВетЭко",
+                name: `Анастасия Замятина`,
+                role: `Руководитель клиники, репродуктолог`,
+                clinic: `ВетЭко`,
                 coords: [56.301844, 44.076147],
-                address: "Нижний Новгород, ул. Родионова193/1",
-                phone: "790124878297",
-                site: "https://vet-eko.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка",
-                photo: "zamiyatina.png",
-                logo: "veteco.png",
-                marker: "marker-veteco.png"
+                address: `Нижний Новгород, ул. Родионова193/1`,
+                phone: `790124878297`,
+                site: `https://vet-eko.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка`,
+                photo: "https://artemm77.github.io/graduates-map/zamiyatina.png",
+                logo: "https://artemm77.github.io/graduates-map/veteco.png",
+                marker: "https://artemm77.github.io/graduates-map/veteco.png"
             },
             
             {
-                name: "Анастасия Манторова",
-                role: "Врач-репродуктолог",
-                clinic: "ВЦ А.Базылевского ",
+                name: `Анастасия Манторова`,
+                role: `Врач-репродуктолог`,
+                clinic: `ВЦ А.Базылевского `,
                 coords: [53.873812, 27.502037],
-                address: "Минск ул. Железнодорожная 31 к 1",
-                phone: "375 33 326-30-00 ",
-                site: "https://minsk.vet-centre.by",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка",
-                photo: "mantorova.png",
-                logo: "bazylevskiy.png",
-                marker: "marker-bazylevskiy.png"
+                address: `Минск ул. Железнодорожная 31 к 1`,
+                phone: `375 33 326-30-00 `,
+                site: `https://minsk.vet-centre.by`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка`,
+                photo: "https://artemm77.github.io/graduates-map/mantorova.png",
+                logo: "https://artemm77.github.io/graduates-map/bazylevskiy.png",
+                marker: "https://artemm77.github.io/graduates-map/bazylevskiy.png"
             },
             
             {
-                name: "Мария Богачева",
-                role: "Врач-репродуктолог",
-                clinic: "Добрый доктор",
+                name: `Мария Богачева`,
+                role: `Врач-репродуктолог`,
+                clinic: `Добрый доктор`,
                 coords: [56.137003, 40.415575],
-                address: "Владимир, Луначарского 23",
-                phone: "74922771424",
-                site: "https://dobrydoctora.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "bogacheva.png",
-                logo: "dobriydoctor.png",
-                marker: "marker-dobriydoctor.png"
+                address: `Владимир, Луначарского 23`,
+                phone: `74922771424`,
+                site: `https://dobrydoctora.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/bogacheva.png",
+                logo: "https://artemm77.github.io/graduates-map/dobriydoctor.png",
+                marker: "https://artemm77.github.io/graduates-map/dobriydoctor.png"
             },
             
             {
-                name: "Александра Каменская",
-                role: "Главный врач клиники, репродуктолог",
-                clinic: "Крокозоо",
+                name: `Александра Каменская`,
+                role: `Главный врач клиники, репродуктолог`,
+                clinic: `Крокозоо`,
                 coords: [53.204967, 50.132739],
-                address: "Самара пр Ленина 1",
-                phone: "79677620010",
-                site: "https://crocozoo.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "nan",
-                logo: "crocozoo.png",
-                marker: "marker-crocozoo.png"
+                address: `Самара пр Ленина 1`,
+                phone: `79677620010`,
+                site: `https://crocozoo.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/nan",
+                logo: "https://artemm77.github.io/graduates-map/crocozoo.png",
+                marker: "https://artemm77.github.io/graduates-map/crocozoo.png"
             },
             
             {
-                name: "Марина Сажнева",
-                role: "Врач-репродуктолог",
-                clinic: "Клиника доктора Гиль",
+                name: `Марина Сажнева`,
+                role: `Врач-репродуктолог`,
+                clinic: `Клиника доктора Гиль`,
                 coords: [59.972196, 30.435014],
-                address: "СПб, пр. Энергетиков 70 корп 1",
-                phone: "79311094880",
-                site: "https://gilvet.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "sajneva.png",
-                logo: "doctorgil.png",
-                marker: "marker-doctorgil.png"
+                address: `СПб, пр. Энергетиков 70 корп 1`,
+                phone: `79311094880`,
+                site: `https://gilvet.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/sajneva.png",
+                logo: "https://artemm77.github.io/graduates-map/doctorgil.png",
+                marker: "https://artemm77.github.io/graduates-map/doctorgil.png"
             },
             
             {
-                name: "Анастасия Кормакова",
-                role: "Врач-репродуктолог",
-                clinic: "Доктор Петс",
+                name: `Анастасия Кормакова`,
+                role: `Врач-репродуктолог`,
+                clinic: `Доктор Петс`,
                 coords: [59.924440, 30.483934],
-                address: "СПб, ул. Коллонтай 30 корп 1Б",
-                phone: "78126467626",
-                site: "https://dr-pets.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "kormakova.png",
-                logo: "doctorpets.png",
-                marker: "marker-doctorpets.png"
+                address: `СПб, ул. Коллонтай 30 корп 1Б`,
+                phone: `78126467626`,
+                site: `https://dr-pets.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/kormakova.png",
+                logo: "https://artemm77.github.io/graduates-map/doctorpets.png",
+                marker: "https://artemm77.github.io/graduates-map/doctorpets.png"
             },
             
             {
-                name: "Татьяна Калмыкова",
-                role: "Врач-репродуктолог",
-                clinic: "Вега",
+                name: `Татьяна Калмыкова`,
+                role: `Врач-репродуктолог`,
+                clinic: `Вега`,
                 coords: [59.838007, 30.348725],
-                address: "СПб ул. Пулковская 11 к 1",
-                phone: "78124997701",
-                site: "https://vegavet.spb.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "kalmykova.png",
-                logo: "vega.png",
-                marker: "marker-vega.png"
+                address: `СПб ул. Пулковская 11 к 1`,
+                phone: `78124997701`,
+                site: `https://vegavet.spb.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/kalmykova.png",
+                logo: "https://artemm77.github.io/graduates-map/vega.png",
+                marker: "https://artemm77.github.io/graduates-map/vega.png"
             },
             
             {
-                name: "Анна Василевская",
-                role: "Врач-репродуктолог",
-                clinic: "ИнТерра",
+                name: `Анна Василевская`,
+                role: `Врач-репродуктолог`,
+                clinic: `ИнТерра`,
                 coords: [54.993255, 82.892859],
-                address: "Новосибирск ул. Выставочная 15 к 1",
-                phone: "73833830949",
-                site: "https://vet-interra.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "vasilevskaya.png",
-                logo: "interra.png",
-                marker: "marker-interra.png"
+                address: `Новосибирск ул. Выставочная 15 к 1`,
+                phone: `73833830949`,
+                site: `https://vet-interra.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/vasilevskaya.png",
+                logo: "https://artemm77.github.io/graduates-map/interra.png",
+                marker: "https://artemm77.github.io/graduates-map/interra.png"
             },
             
             {
-                name: "Светлана Сенчукова",
-                role: "Врач-репродуктолог",
-                clinic: "ИнТерра",
+                name: `Светлана Сенчукова`,
+                role: `Врач-репродуктолог`,
+                clinic: `ИнТерра`,
                 coords: [54.993255, 82.892859],
-                address: "Новосибирск ул. Выставочная 15 к 1",
-                phone: "73833830949",
-                site: "https://vet-interra.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "senchukova.png",
-                logo: "",
-                marker: "marker-.png"
+                address: `Новосибирск ул. Выставочная 15 к 1`,
+                phone: `73833830949`,
+                site: `https://vet-interra.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/senchukova.png",
+                logo: "https://artemm77.github.io/graduates-map/",
+                marker: "https://artemm77.github.io/graduates-map/"
             },
             
             {
-                name: "Ирина Сокирко",
-                role: "Главный врач клиники, репродуктолог",
-                clinic: "Авета",
+                name: `Ирина Сокирко`,
+                role: `Главный врач клиники, репродуктолог`,
+                clinic: `Авета`,
                 coords: [54.987021, 73.416386],
-                address: "Омск ул. 10 лет Октября 141 к 3",
-                phone: "79136718689",
-                site: "https://avetaomsk.orgs.biz/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "sokirko.png",
-                logo: "aveta.png",
-                marker: "marker-aveta.png"
+                address: `Омск ул. 10 лет Октября 141 к 3`,
+                phone: `79136718689`,
+                site: `https://avetaomsk.orgs.biz/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/sokirko.png",
+                logo: "https://artemm77.github.io/graduates-map/aveta.png",
+                marker: "https://artemm77.github.io/graduates-map/aveta.png"
             },
             
             {
-                name: "Алексей Смычков",
-                role: "Ассистент врача-репродуктолога",
-                clinic: "Kalnbērzs",
+                name: `Алексей Смычков`,
+                role: `Ассистент врача-репродуктолога`,
+                clinic: `Kalnbērzs`,
                 coords: [56.959893, 24.031668],
-                address: "Slokas iela 163a , Rīga, LV-1067, Латвия",
-                phone: "371 67425686",
-                site: "www.vet-klinika.lv",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка",
-                photo: "nan",
-                logo: "",
-                marker: "marker-.png"
+                address: `Slokas iela 163a , Rīga, LV-1067, Латвия`,
+                phone: `371 67425686`,
+                site: `www.vet-klinika.lv`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка`,
+                photo: "https://artemm77.github.io/graduates-map/nan",
+                logo: "https://artemm77.github.io/graduates-map/",
+                marker: "https://artemm77.github.io/graduates-map/"
             },
             
             {
-                name: "Татьяна Прохорова",
-                role: "Врач-репродуктолог",
-                clinic: "Здоровье Животных",
+                name: `Татьяна Прохорова`,
+                role: `Врач-репродуктолог`,
+                clinic: `Здоровье Животных`,
                 coords: [51.650237, 39.268304],
-                address: "Воронеж ул. Волгоградская 44",
-                phone: "79525566588",
-                site: "https://zdorovet.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "prohorova.png",
-                logo: "zdoroviezivotnyh.png",
-                marker: "marker-zdoroviezivotnyh.png"
+                address: `Воронеж ул. Волгоградская 44`,
+                phone: `79525566588`,
+                site: `https://zdorovet.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/prohorova.png",
+                logo: "https://artemm77.github.io/graduates-map/zdoroviezivotnyh.png",
+                marker: "https://artemm77.github.io/graduates-map/zdoroviezivotnyh.png"
             },
             
             {
-                name: "Екатерина Слижевская",
-                role: "Врач-репродуктолог",
-                clinic: "Альтервет",
+                name: `Екатерина Слижевская`,
+                role: `Врач-репродуктолог`,
+                clinic: `Альтервет`,
                 coords: [51.650237, 39.268304],
-                address: "Санкт-Петербург пр. Художников 11",
-                phone: "78126144040",
-                site: "https://altervet.com/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение",
-                photo: "slijevskaya.png",
-                logo: "altervet.png",
-                marker: "marker-altervet.png"
+                address: `Санкт-Петербург пр. Художников 11`,
+                phone: `78126144040`,
+                site: `https://altervet.com/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение`,
+                photo: "https://artemm77.github.io/graduates-map/slijevskaya.png",
+                logo: "https://artemm77.github.io/graduates-map/altervet.png",
+                marker: "https://artemm77.github.io/graduates-map/altervet.png"
             },
             
             {
-                name: "Софья Богданова",
-                role: "Врач-репродуктолог",
-                clinic: "Криовет",
+                name: `Софья Богданова`,
+                role: `Врач-репродуктолог`,
+                clinic: `Криовет`,
                 coords: [59.721363, 30.401954],
-                address: "Санет-Петербург, г. Пушкин ул. Московская 10",
-                phone: "79213945667",
-                site: "https://cryovet.ru/",
-                services: "Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка",
-                photo: "bogdanova.png",
-                logo: "cryovet.png",
-                marker: "marker-cryovet.png"
+                address: `Санет-Петербург, г. Пушкин ул. Московская 10`,
+                phone: `79213945667`,
+                site: `https://cryovet.ru/`,
+                services: `Спермограмма, приготовление охлажденной спермы, криоконсервация спермы, искусственное осеменение, услуги криобанка`,
+                photo: "https://artemm77.github.io/graduates-map/bogdanova.png",
+                logo: "https://artemm77.github.io/graduates-map/cryovet.png",
+                marker: "https://artemm77.github.io/graduates-map/cryovet.png"
             },
             
         ];
 
-        // Группировка по координатам
         const grouped = {};
         doctors.forEach(doc => {
             const key = doc.coords.join(',');
@@ -255,10 +253,10 @@
         for (const coord in grouped) {
             const [lat, lng] = coord.split(',').map(Number);
             const group = grouped[coord];
-            const doctorImgs = group.map(d => `<img class='doctor-photo' src='${d.photo}' alt='${d.name}'>`).join("");
+            const photos = group.map(d => `<img class='doctor-photo' src='${d.photo}' alt='${d.name}'>`).join("");
             const textBlock = `
                 <div class='popup-text'>
-                    <h3>${group.map(d => d.name).join(", ")}</h3>
+                    <h3>${group.map(d => d.name).join("<br>")}</h3>
                     <strong>${group[0].role}</strong><br>
                     <em>${group[0].clinic}</em><br><br>
                     <strong>Услуги по репродукции:</strong><br>
@@ -276,7 +274,7 @@
             });
 
             L.marker([lat, lng], { icon: markerIcon }).addTo(map)
-                .bindPopup(`<div class='popup-content'>${doctorImgs}${textBlock}</div>`);
+                .bindPopup(`<div class='popup-content'>${photos}${textBlock}</div>`);
         }
     </script>
 </body>
