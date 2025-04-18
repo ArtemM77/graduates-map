@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>К КОМУ ОБРАТИТЬСЯ ДЛЯ ЗАМОРОЗКИ СПЕРМЫ ЖИВОТНЫХ?</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        /* Общие стили карты */
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        /* Стили карточки врача */
+        .doctor-card {
+            display: flex;
+            flex-direction: row;
+            width: 600px;
+            font-family: Arial, sans-serif;
+        }
+        .doctor-photo {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .doctor-info {
+            flex-grow: 1;
+        }
+        .doctor-info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .doctor-info h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .services {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .contact {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    // Инициализация карты
+    var map = L.map('map').setView([55.751244, 37.618423], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+        var icon_Анастасия_Замятина = L.icon({
+            iconUrl: 'veteco.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([56.301844, 44.076147], {icon: icon_Анастасия_Замятина}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='zamiyatina.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Анастасия Замятина</h2>\n                <h3>Руководитель клиники, репродуктолог<br>ВетЭко</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение<br> услуги криобанка</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Нижний Новгород, ул. Родионова193/1' target='_blank'>Нижний Новгород, ул. Родионова193/1</a><br>\n                    📞 <a href='tel:790124878297'>790124878297</a><br>\n                    🔗 <a href='https://vet-eko.ru/' target='_blank'>https://vet-eko.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Анастасия_Манторова = L.icon({
+            iconUrl: 'bazylevskiy.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([53.873812, 27.502037], {icon: icon_Анастасия_Манторова}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='mantorova.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Анастасия Манторова</h2>\n                <h3>Врач-репродуктолог<br>ВЦ А.Базылевского </h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение<br> услуги криобанка</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Минск ул. Железнодорожная 31 к 1' target='_blank'>Минск ул. Железнодорожная 31 к 1</a><br>\n                    📞 <a href='tel:375 33 326-30-00\xa0'>375 33 326-30-00\xa0</a><br>\n                    🔗 <a href='https://minsk.vet-centre.by' target='_blank'>https://minsk.vet-centre.by</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Мария_Богачева = L.icon({
+            iconUrl: 'dobriydoctor.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([56.137003, 40.415575], {icon: icon_Мария_Богачева}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='bogacheva.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Мария Богачева</h2>\n                <h3>Врач-репродуктолог<br>Добрый доктор</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Владимир, Луначарского 23' target='_blank'>Владимир, Луначарского 23</a><br>\n                    📞 <a href='tel:74922771424'>74922771424</a><br>\n                    🔗 <a href='https://dobrydoctora.ru/' target='_blank'>https://dobrydoctora.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Александра_Каменская = L.icon({
+            iconUrl: 'crocozoo.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([53.204967, 50.132739], {icon: icon_Александра_Каменская}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='nan' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Александра Каменская</h2>\n                <h3>Главный врач клиники, репродуктолог<br>Крокозоо</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Самара пр Ленина 1' target='_blank'>Самара пр Ленина 1</a><br>\n                    📞 <a href='tel:79677620010'>79677620010</a><br>\n                    🔗 <a href='https://crocozoo.ru/' target='_blank'>https://crocozoo.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Марина_Сажнева = L.icon({
+            iconUrl: 'doctorgil.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([59.972196, 30.435014], {icon: icon_Марина_Сажнева}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='sajneva.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Марина Сажнева</h2>\n                <h3>Врач-репродуктолог<br>Клиника доктора Гиль</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=СПб, пр. Энергетиков 70 корп 1' target='_blank'>СПб, пр. Энергетиков 70 корп 1</a><br>\n                    📞 <a href='tel:79311094880'>79311094880</a><br>\n                    🔗 <a href='https://gilvet.ru/' target='_blank'>https://gilvet.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Анастасия_Кормакова = L.icon({
+            iconUrl: 'doctorpets.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([59.924440, 30.483934], {icon: icon_Анастасия_Кормакова}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='kormakova.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Анастасия Кормакова</h2>\n                <h3>Врач-репродуктолог<br>Доктор Петс</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=СПб, ул. Коллонтай 30 корп 1Б' target='_blank'>СПб, ул. Коллонтай 30 корп 1Б</a><br>\n                    📞 <a href='tel:78126467626'>78126467626</a><br>\n                    🔗 <a href='https://dr-pets.ru/' target='_blank'>https://dr-pets.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Татьяна_Калмыкова = L.icon({
+            iconUrl: 'vega.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([59.838007, 30.348725], {icon: icon_Татьяна_Калмыкова}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='kalmykova.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Татьяна Калмыкова</h2>\n                <h3>Врач-репродуктолог<br>Вега</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=СПб ул. Пулковская 11 к 1' target='_blank'>СПб ул. Пулковская 11 к 1</a><br>\n                    📞 <a href='tel:78124997701'>78124997701</a><br>\n                    🔗 <a href='https://vegavet.spb.ru/' target='_blank'>https://vegavet.spb.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Анна_Василевская = L.icon({
+            iconUrl: 'interra.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([54.993255, 82.892859], {icon: icon_Анна_Василевская}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='vasilevskaya.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Анна Василевская</h2>\n                <h3>Врач-репродуктолог<br>ИнТерра</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Новосибирск ул. Выставочная 15 к 1' target='_blank'>Новосибирск ул. Выставочная 15 к 1</a><br>\n                    📞 <a href='tel:73833830949'>73833830949</a><br>\n                    🔗 <a href='https://vet-interra.ru/' target='_blank'>https://vet-interra.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Светлана_Сенчукова = L.icon({
+            iconUrl: 'nan',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([54.993255, 82.892859], {icon: icon_Светлана_Сенчукова}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='senchukova.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Светлана Сенчукова</h2>\n                <h3>Врач-репродуктолог<br>ИнТерра</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Новосибирск ул. Выставочная 15 к 1' target='_blank'>Новосибирск ул. Выставочная 15 к 1</a><br>\n                    📞 <a href='tel:73833830949'>73833830949</a><br>\n                    🔗 <a href='https://vet-interra.ru/' target='_blank'>https://vet-interra.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Ирина_Сокирко = L.icon({
+            iconUrl: 'aveta.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([54.987021, 73.416386], {icon: icon_Ирина_Сокирко}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='sokirko.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Ирина Сокирко</h2>\n                <h3>Главный врач клиники, репродуктолог<br>Авета</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Омск ул. 10 лет Октября 141 к 3' target='_blank'>Омск ул. 10 лет Октября 141 к 3</a><br>\n                    📞 <a href='tel:79136718689'>79136718689</a><br>\n                    🔗 <a href='https://avetaomsk.orgs.biz/' target='_blank'>https://avetaomsk.orgs.biz/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Алексей_Смычков = L.icon({
+            iconUrl: 'kalnberzs.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([56.959893, 24.031668], {icon: icon_Алексей_Смычков}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='nan' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Алексей Смычков</h2>\n                <h3>Ассистент врача-репродуктолога<br>Kalnbērzs</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение<br> услуги криобанка</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Slokas iela 163a , Rīga, LV-1067, Латвия' target='_blank'>Slokas iela 163a , Rīga, LV-1067, Латвия</a><br>\n                    📞 <a href='tel:371\xa067425686'>371\xa067425686</a><br>\n                    🔗 <a href='www.vet-klinika.lv' target='_blank'>www.vet-klinika.lv</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Татьяна_Прохорова = L.icon({
+            iconUrl: 'zdoroviezivotnyh.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([51.650237, 39.268304], {icon: icon_Татьяна_Прохорова}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='prohorova.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Татьяна Прохорова</h2>\n                <h3>Врач-репродуктолог<br>Здоровье Животных</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Воронеж ул. Волгоградская 44' target='_blank'>Воронеж ул. Волгоградская 44</a><br>\n                    📞 <a href='tel:79525566588'>79525566588</a><br>\n                    🔗 <a href='https://zdorovet.ru/' target='_blank'>https://zdorovet.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Екатерина_Слижевская = L.icon({
+            iconUrl: 'altervet.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([51.650237, 39.268304], {icon: icon_Екатерина_Слижевская}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='slijevskaya.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Екатерина Слижевская</h2>\n                <h3>Врач-репродуктолог<br>Альтервет</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Санкт-Петербург пр. Художников 11' target='_blank'>Санкт-Петербург пр. Художников 11</a><br>\n                    📞 <a href='tel:78126144040'>78126144040</a><br>\n                    🔗 <a href='https://altervet.com/' target='_blank'>https://altervet.com/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+        var icon_Софья_Богданова = L.icon({
+            iconUrl: 'cryovet.png',
+            iconSize: [40, 60],
+            iconAnchor: [20, 60],
+            popupAnchor: [0, -60]
+        });
+        L.marker([59.721363, 30.401954], {icon: icon_Софья_Богданова}).addTo(map)
+            .bindPopup("\n        <div class='doctor-card'>\n            <img src='bogdanova.png' class='doctor-photo' />\n            <div class='doctor-info'>\n                <h2>Софья Богданова</h2>\n                <h3>Врач-репродуктолог<br>Криовет</h3>\n                <div class='services'><b>Услуги по репродукции:</b><br>Спермограмма<br> приготовление охлажденной спермы<br> криоконсервация спермы<br> искусственное осеменение<br> услуги криобанка</div>\n                <div class='contact'>\n                    📍 <a href='https://www.google.com/maps/search/?api=1&query=Санет-Петербург, г. Пушкин ул. Московская 10' target='_blank'>Санет-Петербург, г. Пушкин ул. Московская 10</a><br>\n                    📞 <a href='tel:79213945667'>79213945667</a><br>\n                    🔗 <a href='https://cryovet.ru/' target='_blank'>https://cryovet.ru/</a>\n                </div>\n            </div>\n        </div>\n        ");
+        
+</script>
+</body>
+</html>
