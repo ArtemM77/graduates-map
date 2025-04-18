@@ -24,7 +24,7 @@
     // Структура HTML карточки врача
     function createPopupHTML(doctor) {
       return `
-        <div style="display: flex; gap: 20px; width: 600px;">
+        <div style="display: flex; gap: 20px; width: 300px;">
           <div style="flex: 1;">
             <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />
           </div>
@@ -53,7 +53,7 @@
         address: "Санкт-Петербург, Пушкин Московская 10",
         lat: 59.721363,
         lng: 30.401954,
-        phone: "79213945667",
+        phone: "+79213945667",
         site: "https://cryovet.ru/",
         title: "Врач-репродуктолог",
         services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
@@ -67,9 +67,65 @@
         address: "Нижний Новгород Родионова 193",
         lat: 56.301844,
         lng: 44.076147,
-        phone: "79012487829",
+        phone: "+79012487829",
         site: "https://vet-eko.ru/",
         title: "Руководитель клиники, врач-репродуктолог",
+        services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
+      },
+      {
+        name: "Анастасия Манторова",
+        city: "Минск",
+        clinic_logo: "bazylevskiy.png",
+        photo: "mantorova.png",
+        clinic: "Ветеринарный Центр доктора Базылевского А.А.",
+        address: "Минск Железнодорожная 31",
+        lat: 53.873812,
+        lng: 27.502037,
+        phone: "+375333263000",
+        site: "https://minsk.vet-centre.by/",
+        title: "Врач-репродуктолог",
+        services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
+      },
+      {
+        name: "Александра Каменская",
+        city: "Самара",
+        clinic_logo: "crocozoo.png",
+        photo: 
+        clinic: "Крокозоо",
+        address: "Самара Ленина 1",
+        lat: 53.204967,
+        lng: 50.132739,
+        phone: "+79677620010",
+        site: "https://crocozoo.ru/",
+        title: "Главный врач клиники, врач-репродуктолог",
+        services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
+      },
+      {
+        name: "Марина Сажнева",
+        city: "Самара",
+        clinic_logo: "doctorgil.png",
+        photo: "sajneva.png",
+        clinic: "Клиника доктора Гиль",
+        address: "Санкт-Петербург Энергетиков 70",
+        lat: 59.972196,
+        lng: 30.435014,
+        phone: "+79311094880",
+        site: "https://gilvet.ru/",
+        title: "Врач-репродуктолог",
+        services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
+      },
+      {
+        name: "Анастасия Кормакова",
+        city: "Санкт-Петербург",
+        clinic_logo: "doctorpets.png",
+        photo: "kormakova.png",
+        clinic: "Dr.Pets",
+        address: "Санкт-Петербург Коллонтай 30",
+        lat: 59.924440,
+        lng: 30.483934,
+        phone: "+78126467626",
+        site: "https://dr-pets.ru/",
+        title: "Врач-репродуктолог",
         services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
       },
       {
@@ -116,7 +172,7 @@
       var marker = L.marker([doctor.lat, doctor.lng], { icon: icon }).addTo(map);
 
       // Привязываем карточку
-      marker.bindPopup(createPopupHTML(doctor), { maxWidth: 300 });
+      marker.bindPopup(createPopupHTML(doctor), { maxWidth: 700 });
     });
   </script>
 </body>
