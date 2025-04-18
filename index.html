@@ -50,12 +50,26 @@
         clinic_logo: "cryovet.png",
         photo: "bogdanova.png",
         clinic: "Криовет",
-        address: "Санкт-Петербург, г. Пушкин ул. Московская 10",
+        address: "Санкт-Петербург, Пушкин Московская 10",
         lat: 59.721363,
         lng: 30.401954,
         phone: "79213945667",
         site: "https://cryovet.ru/",
         title: "Врач-репродуктолог",
+        services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
+      },
+      {
+        name: "Анастасия Замятина",
+        city: "Нижний Новгород",
+        clinic_logo: "veteco.png",
+        photo: "zamiyatina.png",
+        clinic: "ВетЭко",
+        address: "Нижний Новгород Родионова 193",
+        lat: 56.301844,
+        lng: 44.076147,
+        phone: "79012487829",
+        site: "https://vet-eko.ru/",
+        title: "Руководитель клиники, врач-репродуктолог",
         services: "Спермограмма<br>приготовление охлажденной спермы<br>криоконсервация спермы<br>искусственное осеменение<br>услуги криобанка"
       },
       {
@@ -93,7 +107,7 @@
     doctors.forEach(function(doctor) {
       var icon = L.icon({
         iconUrl: "https://artemm77.github.io/graduates-map/" + doctor.clinic_logo, // путь к булавке
-        iconSize: [80, 110],      // размер иконки
+        iconSize: [70, 100],      // размер иконки
         iconAnchor: [25, 70],    // "остриё" — точка привязки
         popupAnchor: [0, -70]    // смещение попапа относительно иконки
       });
