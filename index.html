@@ -27,7 +27,7 @@ function createPopupHTML(doctor) {
     <div style="display: flex; gap: 20px; width: max-content; max-width: 420px;">
       
       <!-- Левая часть карточки: фото + контакты -->
-      <div style="flex: 1;">
+      <div style="flex: 1.3;">
         <!-- Фото врача -->
         <img src="https://artemm77.github.io/graduates-map/${doctor.photo}"
              style="width: 100%; border-radius: 4px;" />
@@ -68,14 +68,11 @@ function createPopupHTML(doctor) {
                  alt="Навигатор"
                  style="width: 50px; height: 50px;" />
           </a>
-          <div style="font-size: 10px; color: #666; margin-top: 5px;">
-            Маршрут в Навигаторе
-          </div>
         </div>
       </div>
 
       <!-- Правая часть карточки: ФИО, клиника, услуги -->
-      <div style="flex: 2;">
+      <div style="flex: 1.7;">
         <h3 style="margin: 0;">${doctor.name}</h3>
         <p style="margin: 0;">
           <strong>${doctor.title}</strong><br>
@@ -101,7 +98,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "cryovet.png",
         photo: "bogdanova.png",
         clinic: "Криовет",
-        address: "Санкт-Петербург, Пушкин Московская 10",
+        address: "Пушкин Московская 10",
         lat: 59.721363,
         lng: 30.401954,
         phone: "+79213945667",
@@ -115,7 +112,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "veteco.png",
         photo: "zamiyatina.png",
         clinic: "ВетЭко",
-        address: "Нижний Новгород Родионова 193",
+        address: "Родионова 193",
         lat: 56.301844,
         lng: 44.076147,
         phone: "+79012487829",
@@ -129,7 +126,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "bazylevskiy.png",
         photo: "mantorova.png",
         clinic: "Ветеринарный Центр доктора Базылевского А.А.",
-        address: "Минск Железнодорожная 31",
+        address: "Железнодорожная 31",
         lat: 53.873812,
         lng: 27.502037,
         phone: "+375333263000",
@@ -143,7 +140,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "crocozoo.png",
         photo: "kamenskaya.png",
         clinic: "Крокозоо",
-        address: "Самара Ленина 1",
+        address: "Ленина 1",
         lat: 53.204967,
         lng: 50.132739,
         phone: "+79677620010",
@@ -157,7 +154,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "doctorgil.png",
         photo: "sajneva.png",
         clinic: "Клиника доктора Гиль",
-        address: "Санкт-Петербург Энергетиков 70",
+        address: "Энергетиков 70",
         lat: 59.972196,
         lng: 30.435014,
         phone: "+79311094880",
@@ -171,7 +168,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "doctorpets.png",
         photo: "kormakova.png",
         clinic: "Dr.Pets",
-        address: "Санкт-Петербург Коллонтай 30",
+        address: "Коллонтай 30",
         lat: 59.924440,
         lng: 30.483934,
         phone: "+78126467626",
@@ -185,7 +182,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "vega.png",
         photo: "kalmykova.png",
         clinic: "Вега",
-        address: "Санкт-Петербург Пулковская 11",
+        address: "Пулковская 11",
         lat: 59.838007,
         lng: 30.348725,
         phone: "+78124997701",
@@ -199,7 +196,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "interra.png",
         photo: "vasilevskaya.png",
         clinic: "ИнТерра",
-        address: "Новосибирск  Выставочная 15",
+        address: "Выставочная 15",
         lat: 54.993255,
         lng: 82.892859,
         phone: "+73833830949",
@@ -213,7 +210,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "interra.png",
         photo: "senchukova.png",
         clinic: "ИнТерра",
-        address: "Новосибирск Высоцкого 49",
+        address: "Высоцкого 49",
         lat: 55.029920,
         lng: 83.020497,
         phone: "+73833830949",
@@ -227,7 +224,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "aveta.png",
         photo: "sokirko.png",
         clinic: "Авета",
-        address: "Омск 10 лет Октября 141",
+        address: "10 лет Октября 141",
         lat: 54.987021,
         lng: 73.416386,
         phone: "+79136718689",
@@ -241,7 +238,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "kalnberzs.png",
         photo: "",
         clinic: "Kalnbērzs",
-        address: "Slokas iela 163a  Rīga LV-1067 Латвия",
+        address: "Slokas iela 163a",
         lat: 56.959893,
         lng: 24.031668,
         phone: "+371 67425686",
@@ -255,7 +252,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "zdoroviezivotnyh.png",
         photo: "prohorova.png",
         clinic: "Здоровье Животных",
-        address: "Воронеж  Волгоградская 44",
+        address: "Волгоградская 44",
         lat: 51.650237,
         lng: 39.268304,
         phone: "+79525566588",
@@ -269,7 +266,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "dobriydoctor.png",
         photo: "bogacheva.png",
         clinic: "Добрый Доктор",
-        address: "Владимир Луначарского 23",
+        address: "Луначарского 23",
         lat: 56.137003,
         lng: 40.415575,
         phone: "+74922771424",
@@ -283,7 +280,7 @@ function createPopupHTML(doctor) {
         clinic_logo: "altervet.png",
         photo: "slijevskaya.png",
         clinic: "Альтервет",
-        address: "Санкт-Петербург Художников 11",
+        address: "Художников 11",
         lat: 60.036190,
         lng: 30.346180,
         phone: "+78126144040",
