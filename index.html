@@ -24,7 +24,16 @@
 // Структура HTML карточки врача
 function createPopupHTML(doctor) {
   return `
-    <div style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 90vw;">
+    <div class="popup-flex" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px; width: 100%; max-width: 90vw; font-size: 13px; color: #222; font-family: sans-serif;">
+
+      <style>
+        @media (max-width: 768px) {
+          .popup-flex {
+            flex-direction: column !important;
+            gap: 15px !important;
+          }
+        }
+      </style>
 
       <!-- Левая часть карточки: фото + контакты -->
       <div style="flex: 1.3;">
@@ -78,8 +87,8 @@ function createPopupHTML(doctor) {
       </div>
 
       <!-- Правая часть карточки: ФИО, клиника, услуги -->
-      <div style="flex: 1.7; font-size: 13px; color: #222; font-family: sans-serif;">
-        <h3 style="margin: 0;">${doctor.name}</h3>
+      <div style="flex: 1.7;">
+        <h3 style="margin: 0; font-size: 15px; font-weight: normal;">${doctor.name}</h3>
         <p style="margin: 0;">
           ${doctor.title}<br>
           <strong>${doctor.clinic}</strong>
@@ -100,13 +109,13 @@ function createPopupHTML(doctor) {
         city: "Санкт-Петербург",
         clinic_logo: "cryovet.png",
         photo: "bogdanova.png",
-        clinic: "лаборатории Криовет",
+        clinic: "Криовет",
         address: "Пушкин Московская 10",
         lat: 59.721363,
         lng: 30.401954,
         phone: "+79213945667",
         site: "https://cryovet.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог лаборатории",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-доставка охлажденной и замороженной спермы<br>-выез в регионы<br>-искусственное осеменение<br>-услуги криобанка<br>-консультативные услуги<br>-проведение мастер-классов<br>"
       },
       {
@@ -114,13 +123,13 @@ function createPopupHTML(doctor) {
         city: "Нижний Новгород",
         clinic_logo: "veteco.png",
         photo: "zamiyatina.png",
-        clinic: "ветеринарной клиники ВетЭко",
+        clinic: "ВетЭко",
         address: "Родионова 193",
         lat: 56.301844,
         lng: 44.076147,
         phone: "+79012487829",
         site: "https://vet-eko.ru/",
-        title: "руководитель, врач-репродуктолог",
+        title: "руководитель, врач-репродуктолог ветеринарной клиники",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -128,13 +137,13 @@ function createPopupHTML(doctor) {
         city: "Минск",
         clinic_logo: "bazylevskiy.png",
         photo: "mantorova.png",
-        clinic: "ветеринарного центра доктора Базылевского А.А.",
+        clinic: "доктора Базылевского А.А.",
         address: "Железнодорожная 31",
         lat: 53.873812,
         lng: 27.502037,
         phone: "+375333263000",
         site: "https://minsk.vet-centre.by/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог ветеринарного центра",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -142,13 +151,13 @@ function createPopupHTML(doctor) {
         city: "Самара",
         clinic_logo: "crocozoo.png",
         photo: "kamenskaya.png",
-        clinic: "ветеринарной клиники Крокозоо",
+        clinic: "Крокозоо",
         address: "Самара Ленина 1",
         lat: 53.204967,
         lng: 50.132739,
         phone: "+79677620010",
         site: "https://crocozoo.ru/",
-        title: "главный врач, врач-репродуктолог",
+        title: "главный врач, врач-репродуктолог ветеринарной клиники",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -156,13 +165,13 @@ function createPopupHTML(doctor) {
         city: "Санкт-Петербург",
         clinic_logo: "doctorgil.png",
         photo: "sajneva.png",
-        clinic: "ветеринарной клиники доктора Гиль",
+        clinic: "доктора Гиль",
         address: "Энергетиков 70",
         lat: 59.972196,
         lng: 30.435014,
         phone: "+79311094880",
         site: "https://gilvet.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог ветеринарной клиники",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -170,13 +179,13 @@ function createPopupHTML(doctor) {
         city: "Санкт-Петербург",
         clinic_logo: "doctorpets.png",
         photo: "kormakova.png",
-        clinic: "сети ветеринарных клиник Dr.Pets",
+        clinic: "Dr.Pets",
         address: "Коллонтай 30",
         lat: 59.924440,
         lng: 30.483934,
         phone: "+78126467626",
         site: "https://dr-pets.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -184,13 +193,13 @@ function createPopupHTML(doctor) {
         city: "Санкт-Петербург",
         clinic_logo: "vega.png",
         photo: "kalmykova.png",
-        clinic: "сети ветеринарных клиник Вега",
+        clinic: "Вега",
         address: "Пулковская 11",
         lat: 59.838007,
         lng: 30.348725,
         phone: "+78124997701",
         site: "https://vegavet.spb.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -198,13 +207,13 @@ function createPopupHTML(doctor) {
         city: "Новосибирск",
         clinic_logo: "interra.png",
         photo: "vasilevskaya.png",
-        clinic: "сети ветеринарных клиник ИнТерра",
+        clinic: "ИнТерра",
         address: "Новосибирск Выставочная 15",
         lat: 54.993255,
         lng: 82.892859,
         phone: "+73833830949",
         site: "https://vet-interra.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -212,13 +221,13 @@ function createPopupHTML(doctor) {
         city: "Новосибирск",
         clinic_logo: "interra.png",
         photo: "senchukova.png",
-        clinic: "сети ветеринарных клиник ИнТерра",
+        clinic: "ИнТерра",
         address: "Новосибирск Высоцкого 49",
         lat: 55.029920,
         lng: 83.020497,
         phone: "+73833830949",
         site: "https://vet-interra.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -226,13 +235,13 @@ function createPopupHTML(doctor) {
         city: "Омск",
         clinic_logo: "aveta.png",
         photo: "sokirko.png",
-        clinic: "ветеринарной клиники Авета",
+        clinic: "Авета",
         address: "Омск 10 лет Октября 141",
         lat: 54.987021,
         lng: 73.416386,
         phone: "+79136718689",
         site: "https://avetaomsk.orgs.biz/",
-        title: "главный врач, врач-репродуктолог",
+        title: "главный врач, врач-репродуктолог ветеринарной клиники",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -240,13 +249,13 @@ function createPopupHTML(doctor) {
         city: "Рига",
         clinic_logo: "kalnberzs.png",
         photo: "",
-        clinic: "ветеринарной клиники Kalnbērzs",
+        clinic: "Kalnbērzs",
         address: "Slokas iela 163a",
         lat: 56.959893,
         lng: 24.031668,
         phone: "+371 67425686",
         site: "www.vet-klinika.lv",
-        title: "ассистент врача-репродуктолога",
+        title: "ассистент врача-репродуктолога ветеринарной клиники",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-услуги криобанка"
       },
       {
@@ -254,13 +263,13 @@ function createPopupHTML(doctor) {
         city: "Воронеж",
         clinic_logo: "zdoroviezivotnyh.png",
         photo: "prohorova.png",
-        clinic: "сети ветеринарных клиник Здоровье Животных",
+        clinic: "Здоровье Животных",
         address: "Воронеж Волгоградская 44",
         lat: 51.650237,
         lng: 39.268304,
         phone: "+79525566588",
         site: "https://zdorovet.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -268,13 +277,13 @@ function createPopupHTML(doctor) {
         city: "Владимир",
         clinic_logo: "dobriydoctor.png",
         photo: "bogacheva.png",
-        clinic: "ветеринарной клиники Добрый Доктор",
+        clinic: "Добрый Доктор",
         address: "Владимир Луначарского 23",
         lat: 56.137003,
         lng: 40.415575,
         phone: "+74922771424",
         site: "https://dobrydoctora.ru/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог ветеринарной клиники",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       {
@@ -282,13 +291,13 @@ function createPopupHTML(doctor) {
         city: "Санкт-Петербург",
         clinic_logo: "altervet.png",
         photo: "slijevskaya.png",
-        clinic: "ветеринарной клиники Альтервет",
+        clinic: "Альтервет",
         address: "Художников 11",
         lat: 60.036190,
         lng: 30.346180,
         phone: "+78126144040",
         site: "https://altervet.com/",
-        title: "врач-репродуктолог",
+        title: "врач-репродуктолог ветеринарной клиники ",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       // Добавь оставшихся врачей вручную по шаблону
