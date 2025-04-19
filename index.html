@@ -11,47 +11,49 @@
   <div id="map" style="width: 100%; height: 100vh;"></div>
 
   <script>
+    // Инициализация карты
     var map = L.map('map').setView([56.5, 50.5], 4);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
+    // Логирование просмотра
     function logDoctorView(doctorName, eventType = "card_opened") {
-      const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
-      fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: doctorName,
-          event: eventType,
-          timestamp: new Date().toISOString()
-        })
-      }).catch(() => {});
-    }
+     const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
+     fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+       "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+      name: doctorName,
+      event: eventType,
+      timestamp: new Date().toISOString()
+      })
+    }).catch(() => {});
+  }
 
     function createPopupHTML(doctor) {
-      logDoctorView(doctor.name, 'card_opened');
+      logDoctorView(doctor.name);
       const isMobile = window.innerWidth < 768;
 
       const contactButtons = `
-        <a onclick="logDoctorView('${doctor.name}', 'click_yandex_maps')" href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">${doctor.address}</a>
-        <a onclick="logDoctorView('${doctor.name}', 'click_phone')" href="tel:${doctor.phone}" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">📞 ${doctor.phone}</a>
-        <a onclick="logDoctorView('${doctor.name}', 'click_website')" href="${doctor.site}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">🌐 Перейти на сайт</a>
+        <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">${doctor.address}</a>
+        <a href="tel:${doctor.phone}" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">📞 ${doctor.phone}</a>
+        <a href="${doctor.site}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">🌐 Перейти на сайт</a>
       `;
 
       const iconsBlock = `
         <div style="margin-top: 10px; text-align: center;">
           <div style="display: flex; justify-content: center; gap: 12px;">
-            <a onclick="logDoctorView('${doctor.name}', 'click_yandex_navi')" href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" title="Яндекс.Навигатор">
+            <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" title="Яндекс.Навигатор">
               <img src="https://artemm77.github.io/graduates-map/yandex.png" alt="Навигатор" style="width: 50px; height: 50px;" />
             </a>
-            <a onclick="logDoctorView('${doctor.name}', 'click_whatsapp')" href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="WhatsApp">
+            <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="WhatsApp">
               <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
             </a>
-            <a onclick="logDoctorView('${doctor.name}', 'click_telegram')" href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
+            <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
               <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
             </a>
           </div>
@@ -100,7 +102,220 @@
       }
     }
 
-    // Здесь должен быть массив doctors и логика добавления маркеров
+
+    // Массив данных врачей (сгенерировано из Excel)
+    var doctors = [
+      {
+        name: "Софья Богданова",
+        city: "Санкт-Петербург",
+        clinic_logo: "cryovet.png",
+        photo: "bogdanova.png",
+        clinic: "Криовет",
+        address: "Пушкин Московская 10",
+        lat: 59.721363,
+        lng: 30.401954,
+        phone: "+79213945667",
+        site: "https://cryovet.ru/",
+        title: "врач-репродуктолог лаборатории",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-доставка охлажденной и замороженной спермы<br>-выез в регионы<br>-искусственное осеменение<br>-услуги криобанка<br>-консультативные услуги<br>-проведение мастер-классов<br>"
+      },
+      {
+        name: "Анастасия Замятина",
+        city: "Нижний Новгород",
+        clinic_logo: "veteco.png",
+        photo: "zamiyatina.png",
+        clinic: "ВетЭко",
+        address: "Родионова 193",
+        lat: 56.301844,
+        lng: 44.076147,
+        phone: "+79012487829",
+        site: "https://vet-eko.ru/",
+        title: "руководитель, врач-репродуктолог ветеринарной клиники",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Анастасия Манторова",
+        city: "Минск",
+        clinic_logo: "bazylevskiy.png",
+        photo: "mantorova.png",
+        clinic: "доктора Базылевского А.А.",
+        address: "Железнодорожная 31",
+        lat: 53.873812,
+        lng: 27.502037,
+        phone: "+375333263000",
+        site: "https://minsk.vet-centre.by/",
+        title: "врач-репродуктолог ветеринарного центра",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Александра Каменская",
+        city: "Самара",
+        clinic_logo: "crocozoo.png",
+        photo: "kamenskaya.png",
+        clinic: "Крокозоо",
+        address: "Самара Ленина 1",
+        lat: 53.204967,
+        lng: 50.132739,
+        phone: "+79677620010",
+        site: "https://crocozoo.ru/",
+        title: "главный врач, врач-репродуктолог ветеринарной клиники",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Марина Сажнева",
+        city: "Санкт-Петербург",
+        clinic_logo: "doctorgil.png",
+        photo: "sajneva.png",
+        clinic: "доктора Гиль",
+        address: "Энергетиков 70",
+        lat: 59.972196,
+        lng: 30.435014,
+        phone: "+79311094880",
+        site: "https://gilvet.ru/",
+        title: "врач-репродуктолог ветеринарной клиники",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Анастасия Кормакова",
+        city: "Санкт-Петербург",
+        clinic_logo: "doctorpets.png",
+        photo: "kormakova.png",
+        clinic: "Dr.Pets",
+        address: "Коллонтай 30",
+        lat: 59.924440,
+        lng: 30.483934,
+        phone: "+78126467626",
+        site: "https://dr-pets.ru/",
+        title: "врач-репродуктолог сети ветеринарных клиник",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Татьяна Калмыкова",
+        city: "Санкт-Петербург",
+        clinic_logo: "vega.png",
+        photo: "kalmykova.png",
+        clinic: "Вега",
+        address: "Пулковская 11",
+        lat: 59.838007,
+        lng: 30.348725,
+        phone: "+78124997701",
+        site: "https://vegavet.spb.ru/",
+        title: "врач-репродуктолог сети ветеринарных клиник",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Анна Василевская",
+        city: "Новосибирск",
+        clinic_logo: "interra.png",
+        photo: "vasilevskaya.png",
+        clinic: "ИнТерра",
+        address: "Новосибирск Выставочная 15",
+        lat: 54.993255,
+        lng: 82.892859,
+        phone: "+73833830949",
+        site: "https://vet-interra.ru/",
+        title: "врач-репродуктолог сети ветеринарных клиник",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Светлана Сенчукова",
+        city: "Новосибирск",
+        clinic_logo: "interra.png",
+        photo: "senchukova.png",
+        clinic: "ИнТерра",
+        address: "Новосибирск Высоцкого 49",
+        lat: 55.029920,
+        lng: 83.020497,
+        phone: "+73833830949",
+        site: "https://vet-interra.ru/",
+        title: "врач-репродуктолог сети ветеринарных клиник",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Ирина Сокирко",
+        city: "Омск",
+        clinic_logo: "aveta.png",
+        photo: "sokirko.png",
+        clinic: "Авета",
+        address: "Омск 10 лет Октября 141",
+        lat: 54.987021,
+        lng: 73.416386,
+        phone: "+79136718689",
+        site: "https://avetaomsk.orgs.biz/",
+        title: "главный врач, врач-репродуктолог ветеринарной клиники",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Алексей Смычков",
+        city: "Рига",
+        clinic_logo: "kalnberzs.png",
+        photo: "",
+        clinic: "Kalnbērzs",
+        address: "Slokas iela 163a",
+        lat: 56.959893,
+        lng: 24.031668,
+        phone: "+371 67425686",
+        site: "www.vet-klinika.lv",
+        title: "ассистент врача-репродуктолога ветеринарной клиники",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-услуги криобанка"
+      },
+      {
+        name: "Татьяна Прохорова",
+        city: "Воронеж",
+        clinic_logo: "zdoroviezivotnyh.png",
+        photo: "prohorova.png",
+        clinic: "Здоровье Животных",
+        address: "Воронеж Волгоградская 44",
+        lat: 51.650237,
+        lng: 39.268304,
+        phone: "+79525566588",
+        site: "https://zdorovet.ru/",
+        title: "врач-репродуктолог сети ветеринарных клиник",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Мария Богачева",
+        city: "Владимир",
+        clinic_logo: "dobriydoctor.png",
+        photo: "bogacheva.png",
+        clinic: "Добрый Доктор",
+        address: "Владимир Луначарского 23",
+        lat: 56.137003,
+        lng: 40.415575,
+        phone: "+74922771424",
+        site: "https://dobrydoctora.ru/",
+        title: "врач-репродуктолог ветеринарной клиники",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      {
+        name: "Екатерина Слижевская",
+        city: "Санкт-Петербург",
+        clinic_logo: "altervet.png",
+        photo: "slijevskaya.png",
+        clinic: "Альтервет",
+        address: "Художников 11",
+        lat: 60.036190,
+        lng: 30.346180,
+        phone: "+78126144040",
+        site: "https://altervet.com/",
+        title: "врач-репродуктолог ветеринарной клиники ",
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+      },
+      // Добавь оставшихся врачей вручную по шаблону
+    ];
+
+    // Добавляем маркеры на карту
+    doctors.forEach(function(doctor) {
+      const icon = L.icon({
+        iconUrl: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
+        iconSize: [60, 90],
+        iconAnchor: [25, 70],
+        popupAnchor: [0, -70]
+      });
+
+      const marker = L.marker([doctor.lat, doctor.lng], { icon: icon }).addTo(map);
+      marker.bindPopup(createPopupHTML(doctor), { maxWidth: 700 });
+    });
   </script>
 </body>
 </html>
