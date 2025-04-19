@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>К КОМУ ОБРАТИТЬСЯ ДЛЯ ЗАМОРОЗКИ СПЕРМЫ?</title>
+  <title>Где заморозить сперму кобеля?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Leaflet стили и скрипт -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -26,10 +26,28 @@ function createPopupHTML(doctor) {
   const isMobile = window.innerWidth < 768;
 
   if (isMobile) {
-    // 📱 Мобильная версия: вертикальная карточка, правильный порядок
+    // 📱 Мобильная версия
     return `
-      <div style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 90vw; font-size: 13px; color: #222; font-family: sans-serif;">
-        
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        max-width: 85vw;
+        max-height: 85vh;
+        overflow-y: auto;
+        font-size: 13px;
+        color: #222;
+        font-family: sans-serif;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+      ">
+        <style>
+          ::-webkit-scrollbar {
+            display: none;
+          }
+        </style>
+
         <!-- Фото -->
         <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />
 
@@ -85,11 +103,11 @@ function createPopupHTML(doctor) {
       </div>
     `;
   } else {
-    // 💻 Десктопная версия: горизонтальная карточка, ограничена по ширине
+    // 💻 Десктопная версия
     return `
-      <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 560px; font-size: 13px; color: #222; font-family: sans-serif;">
+      <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 400px; font-size: 13px; color: #222; font-family: sans-serif;">
 
-        <!-- Левая часть: фото + кнопки -->
+        <!-- Левая часть -->
         <div style="flex: 1.3;">
           <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />
 
@@ -129,9 +147,9 @@ function createPopupHTML(doctor) {
           </div>
         </div>
 
-        <!-- Правая часть: ФИО, клиника, услуги -->
+        <!-- Правая часть -->
         <div style="flex: 1.7;">
-          <h3 style="margin: 0; font-size: 15px; font-weight: normal;">${doctor.name}</h3>
+          <h3 style="margin: 0; font-size: 15px;">${doctor.name}</h3>
           <p style="margin: 0;">${doctor.title}<br><strong>${doctor.clinic}</strong></p>
           <p style="margin-top: 10px;">
             <span style="text-decoration: underline;">Услуги по репродукции:</span><br>
@@ -142,6 +160,7 @@ function createPopupHTML(doctor) {
     `;
   }
 }
+
 
 
     // Массив данных врачей (сгенерировано из Excel)
