@@ -320,15 +320,21 @@ doctors.forEach(d => {
   });
 
   // Стилизация с адаптивным масштабом в зависимости от зума
-  feature.setStyle(new ol.style.Style({
-  image: new ol.style.Icon({
-    src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
-    anchor: [0.42, 1],
-    anchorXUnits: 'fraction',
-    anchorYUnits: 'fraction',
-    scale: 0.4
-  })
-}));
+  feature.setStyle(function (resolution) {
+  const zoom = view.getZoomForResolution(resolution) || 4; // fallback
+  const baseScale = 0.04;
+  const scale = baseScale * zoom;
+
+  return new ol.style.Style({
+    image: new ol.style.Icon({
+      src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
+      anchor: [0.42, 1],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      scale: scale
+    })
+  });
+});
 
   vectorSource.addFeature(feature);
 });
