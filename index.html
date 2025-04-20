@@ -319,9 +319,10 @@ doctors.forEach(d => {
   feature.setStyle(new ol.style.Style({
   image: new ol.style.Icon({
     src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
-    anchor: [0.5, 1],
-    imgSize: [60, 90], // размер иконки в пикселях
-    scale: 1
+    anchor: [0.42, 1],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'fraction',
+    scale: 0.5
   })
 }));
 
