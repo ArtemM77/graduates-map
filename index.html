@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Где заморозить сперму кобеля?</title>
+  <link rel="icon" type="image/png" href="https://artemm77.github.io/graduates-map/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
 <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.js"></script>
@@ -337,6 +338,18 @@ doctors.forEach(d => {
         overlay.setPosition(undefined);
         container.style.display = 'none';
       }
+      // закрывать попап при любом касании вне маркера на мобильных
+if ('ontouchstart' in window) {
+  setTimeout(() => {
+    document.addEventListener('touchstart', function hidePopupOnTouch(evt) {
+      if (!container.contains(evt.target)) {
+        overlay.setPosition(undefined);
+        container.style.display = 'none';
+        document.removeEventListener('touchstart', hidePopupOnTouch);
+      }
+    });
+  }, 0);
+}
     });
   </script>
 </body>
