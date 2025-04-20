@@ -339,9 +339,31 @@ function updateIconScales() {
 
 // Привязываем обновление к изменению разрешения (масштаба)
 map.getView().on('change:resolution', updateIconScales);
-
 // Инициализация иконок при первом рендере
-updateIconScales();
+function updateIconScales() {
+  const zoom = map.getView().getZoom();
+  const BASE_ICON_SCALE = 0.05;
+  const scale = BASE_ICON_SCALE * Math.max(0.6, 1 + (zoom - 4) * 0.1); // масштаб
+
+  vectorLayer.getSource().getFeatures().forEach(feature => {
+    const doctor = feature.get('doctor');
+    if (!doctor) return;
+
+    const iconUrl = "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png");
+
+    const newStyle = new ol.style.Style({
+      image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: iconUrl,
+        scale: baseScale,
+        imgSize: [128, 128] // Укажи реальный размер PNG (или измени под твой)
+      })
+    });
+
+    feature.setStyle(newStyle);
+  });
+}
+
 
     // Логирование просмотра
     function logDoctorView(doctorName, eventType = "card_opened") {
