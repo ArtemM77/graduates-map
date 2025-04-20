@@ -322,7 +322,7 @@ doctors.forEach(d => {
   // Стилизация с адаптивным масштабом в зависимости от зума
   feature.setStyle(function (resolution) {
   const zoom = view.getZoomForResolution(resolution) || 4; // fallback
-  const baseScale = 0.04;
+  const baseScale = 0.015;
   const scale = baseScale * zoom;
 
   return new ol.style.Style({
@@ -335,6 +335,7 @@ doctors.forEach(d => {
     })
   });
 });
+
 
   vectorSource.addFeature(feature);
 });
