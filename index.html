@@ -289,60 +289,59 @@ const overlay = new ol.Overlay({
 map.addOverlay(overlay);
 
 // Слой для врачей
-const vectorSource = new ol.source.Vector();
-const vectorLayer = new ol.layer.Vector({ source: vectorSource });
+const vectorLayer = new ol.layer.Vector({
+  source: new ol.source.Vector()
+});
 map.addLayer(vectorLayer);
 
-// Добавление врачей
-doctors.forEach(doctor => {
+// Обработка клика по карте
+map.on('click', function(evt) {
+  overlay.setPosition(undefined);
+  map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+    const coord = feature.getGeometry().getCoordinates();
+    container.innerHTML = feature.get('popupContent');
+    overlay.setPosition(coord);
+    return true;
+  });
+});
+
+// Добавление врачей на карту
+doctors.forEach(function(doctor) {
   const feature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
     popupContent: createPopupHTML(doctor)
   });
 
-  // Сохраняем масштабируемую иконку как параметр
-  feature.set('clinic_logo', doctor.clinic_logo || 'default.png');
-  vectorSource.addFeature(feature);
+  feature.set('doctor', doctor); // сохраняем данные
+  vectorLayer.getSource().addFeature(feature);
 });
 
-// Обновление масштаба иконок
-function updateIconScale() {
+// Обновление стилей иконок при изменении масштаба
+function updateIconScales() {
   const zoom = map.getView().getZoom();
-  const scale = Math.max(0.2, 0.4 + (zoom - 3) * 0.08);
+  const scale = Math.max(0.2, 0.4 + (zoom - 3) * 0.08); // защита от нуля и минуса
 
-  vectorSource.getFeatures().forEach(feature => {
-    const icon = new ol.style.Icon({
-      anchor: [0.5, 1],
-      src: "https://artemm77.github.io/graduates-map/" + feature.get('clinic_logo'),
-      scale: scale
+  vectorLayer.getSource().getFeatures().forEach(feature => {
+    const doctor = feature.get('doctor');
+    if (!doctor) return;
+
+    const newStyle = new ol.style.Style({
+      image: new ol.style.Icon({
+        anchor: [0.5, 1],
+        src: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
+        scale: scale
+      })
     });
 
-    feature.setStyle(new ol.style.Style({ image: icon }));
+    feature.setStyle(newStyle);
   });
 }
 
-// Применяем масштаб при старте
-updateIconScale();
+// Привязываем обновление к изменению разрешения (масштаба)
+map.getView().on('change:resolution', updateIconScales);
 
-// И при зумировании
-map.getView().on('change:resolution', updateIconScale);
-
-
-// Масштабирование иконок при изменении масштаба карты
-map.getView().on('change:resolution', () => {
-  const zoom = map.getView().getZoom();
-  const scale = Math.max(0.2, 0.4 + (zoom - 3) * 0.08); // защита от отрицательного масштаба
-
-  vectorLayer.getSource().getFeatures().forEach(feature => {
-    const icon = feature.get('icon');
-    if (icon) {
-      icon.setScale(scale);
-      feature.changed(); // обновляем отрисовку
-    }
-  });
-});
-
-
+// Инициализация иконок при первом рендере
+updateIconScales();
 
     // Логирование просмотра
     function logDoctorView(doctorName, eventType = "card_opened") {
