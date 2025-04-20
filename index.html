@@ -353,11 +353,12 @@ function updateIconScales() {
 
 // Привязываем обновление к изменению разрешения (масштаба)
 map.getView().on('change:resolution', updateIconScales);
+
 // Инициализация иконок при первом рендере
 function updateIconScales() {
   const zoom = map.getView().getZoom();
   const BASE_ICON_SCALE = 0.05;
-  const scale = BASE_ICON_SCALE * Math.max(0.6, 1 + (zoom - 4) * 0.1); // масштаб
+  const scale = BASE_ICON_SCALE * Math.max(0.6, 1 + (zoom - 4) * 0.1); // вычисляем масштаб
 
   vectorLayer.getSource().getFeatures().forEach(feature => {
     const doctor = feature.get('doctor');
@@ -369,14 +370,15 @@ function updateIconScales() {
       image: new ol.style.Icon({
         anchor: [0.5, 1],
         src: iconUrl,
-        scale: baseScale,
-        imgSize: [128, 128] // Укажи реальный размер PNG (или измени под твой)
+        scale: scale, // ✅ ПРАВИЛЬНО
+        imgSize: [753, 1195] // ✅ реальные размеры твоих PNG-булавок
       })
     });
 
     feature.setStyle(newStyle);
   });
 }
+
 
 
     // Логирование просмотра
