@@ -357,24 +357,26 @@ doctors.forEach(d => {
 
   // Стилизация с адаптивным масштабом в зависимости от зума
   feature.setStyle(function (resolution) {
-  const zoom = view.getZoomForResolution(resolution) || 4; // fallback
-  const baseScale = 0.015;
-  const scale = baseScale * zoom;
+    const zoom = view.getZoomForResolution(resolution) || 4; // fallback
+    const baseScale = 0.015;
+    const scale = baseScale * zoom;
 
-  return new ol.style.Style({
-  image: new ol.style.Icon({
-    src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
-    anchor: [0.42, 1],
-    anchorXUnits: 'fraction',
-    anchorYUnits: 'fraction',
-    scale: scale
-  }),
-  zIndex: Math.round(d.lat * 1000) // южнее = выше zIndex
-});
+    return new ol.style.Style({
+      image: new ol.style.Icon({
+        src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
+        anchor: [0.42, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        scale: scale
+      }),
+      zIndex: Math.round(d.lat * 1000) // южнее = выше
+    });
+  });
 
-
+  // ❗ ВНЕ функции setStyle
   vectorSource.addFeature(feature);
 });
+
     map.on('click', function (evt) {
       const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
       if (feature) {
