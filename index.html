@@ -5,8 +5,8 @@
   <title>Где заморозить сперму кобеля?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!-- ✅ локальное подключение OpenLayers -->
-  <link rel="stylesheet" href="lib/ol.css">
-  <script src="lib/ol.js"></script>
+   <link rel="stylesheet" href="https://artemm77.github.io/graduates-map/lib/ol.css">
+   <script src="https://artemm77.github.io/graduates-map/lib/ol.js"></script>
 
   <!-- Стили pop-up окна -->
   <style>
@@ -293,6 +293,18 @@ const vectorLayer = new ol.layer.Vector({
   source: new ol.source.Vector()
 });
 map.addLayer(vectorLayer);
+// Принудительно обновляем масштаб при загрузке
+(function initialIconScale() {
+  const zoom = map.getView().getZoom();
+  const scale = Math.max(0.2, 0.4 + (zoom - 3) * 0.08);
+  vectorLayer.getSource().getFeatures().forEach(feature => {
+    const icon = feature.get('icon');
+    if (icon) {
+      icon.setScale(scale);
+      feature.changed();
+    }
+  });
+})();
 
 // Обработка клика по карте
 map.on('click', function(evt) {
@@ -307,22 +319,38 @@ map.on('click', function(evt) {
 
 // Добавление врачей на карту
 doctors.forEach(function(doctor) {
+  const icon = new ol.style.Icon({
+    anchor: [0.5, 1],
+    src: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
+    scale: 1 // временно, обновится при первом рендере
+  });
+
+  const style = new ol.style.Style({ image: icon });
+
   const feature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
     popupContent: createPopupHTML(doctor)
   });
 
-  const style = new ol.style.Style({
-    image: new ol.style.Icon({
-      anchor: [0.5, 1],
-      src: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
-      scale: 1
-    })
-  });
-
   feature.setStyle(style);
+  feature.set('icon', icon); // для динамического масштабирования
   vectorLayer.getSource().addFeature(feature);
 });
+
+// Масштабирование иконок при изменении масштаба карты
+map.getView().on('change:resolution', () => {
+  const zoom = map.getView().getZoom();
+  const scale = Math.max(0.2, 0.4 + (zoom - 3) * 0.08); // защита от отрицательного масштаба
+
+  vectorLayer.getSource().getFeatures().forEach(feature => {
+    const icon = feature.get('icon');
+    if (icon) {
+      icon.setScale(scale);
+      feature.changed(); // обновляем отрисовку
+    }
+  });
+});
+
 
 
     // Логирование просмотра
