@@ -325,6 +325,8 @@ doctors.forEach(function(doctor) {
   feature.setStyle(style);
   feature.set('icon', icon);
   feature.set('doctor', doctor);
+  // 🔽 УСТАНАВЛИВАЕМ zIndex по широте (южнее — выше)
+  feature.set('zIndex', -doctor.lat);
   vectorLayer.getSource().addFeature(feature);
 });
 
@@ -339,17 +341,23 @@ function updateIconScales() {
     const doctor = feature.get('doctor');
     if (!doctor) return;
 
+    const iconUrl = "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png");
+
     const newStyle = new ol.style.Style({
       image: new ol.style.Icon({
         anchor: [0.5, 1],
-        src: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
-        scale: scale
-      })
+        src: iconUrl,
+        scale: scale,
+        crossOrigin: 'anonymous',
+        imgSize: [753, 1195] // указываем реальные размеры PNG
+      }),
+      zIndex: -doctor.lat // чтобы южные булавки были выше
     });
 
     feature.setStyle(newStyle);
   });
 }
+
 
 // Привязываем обновление к изменению разрешения (масштаба)
 map.getView().on('change:resolution', updateIconScales);
@@ -357,7 +365,7 @@ map.getView().on('change:resolution', updateIconScales);
 // Инициализация иконок при первом рендере
 function updateIconScales() {
   const zoom = map.getView().getZoom();
-  const BASE_ICON_SCALE = 0.05;
+  const BASE_ICON_SCALE = 0.03;
   const scale = BASE_ICON_SCALE * Math.max(0.6, 1 + (zoom - 4) * 0.1); // вычисляем масштаб
 
   vectorLayer.getSource().getFeatures().forEach(feature => {
@@ -371,6 +379,7 @@ function updateIconScales() {
         anchor: [0.5, 1],
         src: iconUrl,
         scale: scale, // ✅ ПРАВИЛЬНО
+        crossOrigin: 'anonymous', // 🔧 добавлено
         imgSize: [753, 1195] // ✅ реальные размеры твоих PNG-булавок
       })
     });
