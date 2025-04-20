@@ -41,6 +41,39 @@
       left: 48px;
       margin-left: -10px;
     }
+    .contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+    justify-content: center;
+  }
+
+  .contact-buttons a {
+    flex: 1 1 calc(33% - 10px);
+    min-width: 80px;
+    text-align: center;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    color: #222;
+  }
+
+  .messenger-icons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  @media (min-width: 768px) {
+    .contact-buttons {
+      justify-content: flex-start;
+    }
+  }
   </style>
 </head>
 <body>
@@ -275,37 +308,40 @@ const map = new ol.Map({
     }
 
     function createPopupHTML(d) {
-      const isMobile = window.innerWidth < 768;
-      const phoneDigits = d.phone.replace(/[^0-9]/g, '');
-      const contactButtons = `
-        <a href="https://yandex.ru/maps/?text=${d.address}" target="_blank">${d.address}</a><br>
-        <a href="tel:${d.phone}">📞 ${d.phone}</a><br>
-        <a href="${d.site}" target="_blank">🌐 Перейти на сайт</a>
-      `;
-      const icons = `
-        <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
-          <a href="yandexnavi://build_route_on_map?lat_to=${d.lat}&lon_to=${d.lng}" title="Яндекс.Навигатор">
-            <img src="https://artemm77.github.io/graduates-map/yandex.png" width="40" height="40">
-          </a>
-          <a href="https://wa.me/${phoneDigits}" target="_blank" title="WhatsApp">
-            <img src="https://artemm77.github.io/graduates-map/whatsapp.png" width="40" height="40">
-          </a>
-          <a href="https://t.me/${phoneDigits}" target="_blank" title="Telegram">
-            <img src="https://artemm77.github.io/graduates-map/telegram.png" width="40" height="40">
-          </a>
-        </div>`;
+  const phoneDigits = d.phone.replace(/[^0-9]/g, '');
 
-      return `
-        <div style="max-width: 90vw;">
-          <img src="https://artemm77.github.io/graduates-map/${d.photo}" style="width: 100%; border-radius: 4px;" />
-          <h3>${d.name}</h3>
-          <p>${d.title}<br><strong>${d.clinic}</strong></p>
-          <p><u>Услуги по репродукции:</u><br>${d.services}</p>
-          ${contactButtons}
-          ${icons}
-        </div>
-      `;
-    }
+  const contactButtons = `
+    <div class="contact-buttons">
+      <a href="https://yandex.ru/maps/?text=${encodeURIComponent(d.address)}" target="_blank">📍 Адрес</a>
+      <a href="tel:${d.phone}">📞 Позвонить</a>
+      <a href="${d.site}" target="_blank">🌐 Сайт</a>
+    </div>
+  `;
+
+  const icons = `
+    <div class="messenger-icons">
+      <a href="yandexnavi://build_route_on_map?lat_to=${d.lat}&lon_to=${d.lng}" title="Яндекс.Навигатор">
+        <img src="https://artemm77.github.io/graduates-map/yandex.png" width="40" height="40">
+      </a>
+      <a href="https://wa.me/${phoneDigits}" target="_blank" title="WhatsApp">
+        <img src="https://artemm77.github.io/graduates-map/whatsapp.png" width="40" height="40">
+      </a>
+      <a href="https://t.me/${phoneDigits}" target="_blank" title="Telegram">
+        <img src="https://artemm77.github.io/graduates-map/telegram.png" width="40" height="40">
+      </a>
+    </div>`;
+
+  return `
+    <div style="max-width: 90vw;">
+      <img src="https://artemm77.github.io/graduates-map/${d.photo}" style="width: 100%; border-radius: 4px; margin-bottom: 10px;" />
+      <h3>${d.name}</h3>
+      <p>${d.title}<br><strong>${d.clinic}</strong></p>
+      <p><u>Услуги по репродукции:</u><br>${d.services}</p>
+      ${contactButtons}
+      ${icons}
+    </div>
+  `;
+}
 
 // 1. Сначала объявляем источник и слой
 const vectorSource = new ol.source.Vector();
