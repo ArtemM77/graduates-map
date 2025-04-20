@@ -316,15 +316,22 @@ doctors.forEach(d => {
     doctor: d
   });
 
-  feature.setStyle(new ol.style.Style({
-  image: new ol.style.Icon({
-    src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
-    anchor: [0.42, 1],
-    anchorXUnits: 'fraction',
-    anchorYUnits: 'fraction',
-    scale: 0.5
-  })
-}));
+  feature.setStyle(function (resolution) {
+  const zoom = map.getView().getZoomForResolution(resolution);
+  const baseScale = 0.04; // базовый масштаб на зуме 4
+  const scale = baseScale * zoom;
+
+  return new ol.style.Style({
+    image: new ol.style.Icon({
+      src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
+      anchor: [0.42, 1],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      scale: scale
+    })
+  });
+});
+
 
   vectorSource.addFeature(feature);
 });
