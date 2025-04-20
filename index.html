@@ -308,12 +308,11 @@ map.on('click', function(evt) {
 // Добавление врачей на карту
 doctors.forEach(function(doctor) {
   const iconUrl = "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png");
-
   const icon = new ol.style.Icon({
     anchor: [0.5, 1],
     src: iconUrl,
     crossOrigin: 'anonymous',
-    scale: 0.4 // начальный размер булавки
+    scale: 0.12 // начальный размер булавки
   });
 
   const style = new ol.style.Style({ image: icon });
