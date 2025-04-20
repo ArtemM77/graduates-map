@@ -326,14 +326,14 @@ doctors.forEach(d => {
   const scale = baseScale * zoom;
 
   return new ol.style.Style({
-    image: new ol.style.Icon({
-      src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
-      anchor: [0.42, 1],
-      anchorXUnits: 'fraction',
-      anchorYUnits: 'fraction',
-      scale: scale
-    })
-  });
+  image: new ol.style.Icon({
+    src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
+    anchor: [0.42, 1],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'fraction',
+    scale: scale
+  }),
+  zIndex: Math.round(d.lat * 1000) // южнее = выше zIndex
 });
 
 
