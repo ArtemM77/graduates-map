@@ -343,6 +343,12 @@ function updateIconScales() {
 
     const iconUrl = "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png");
 
+    // Добавим индивидуальные размеры для проблемных файлов
+    let imgSize = [128, 128]; // дефолт
+    if (doctor.clinic_logo === "cryovet.png" || doctor.clinic_logo === "kalnberzs.png") {
+      imgSize = [753, 1195];
+    }
+
     const newStyle = new ol.style.Style({
       image: new ol.style.Icon({
         anchor: [0.5, 1],
