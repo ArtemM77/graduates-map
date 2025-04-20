@@ -247,16 +247,19 @@
       // остальные врачи по аналогии...
     ];
 
-    const map = new ol.Map({
-      target: 'map',
-      layers: [
-        new ol.layer.Tile({ source: new ol.source.OSM() })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([50.5, 56.5]),
-        zoom: 4
-      })
-    });
+    const view = new ol.View({
+  center: ol.proj.fromLonLat([50.5, 56.5]),
+  zoom: 4
+});
+
+const map = new ol.Map({
+  target: 'map',
+  layers: [
+    new ol.layer.Tile({ source: new ol.source.OSM() })
+  ],
+  view: view
+});
+
 
     const container = document.getElementById('popup');
     const overlay = new ol.Overlay({ element: container, autoPan: true, autoPanAnimation: { duration: 250 } });
@@ -318,7 +321,7 @@ doctors.forEach(d => {
 
   // Стилизация с адаптивным масштабом в зависимости от зума
   feature.setStyle(function (resolution) {
-    const zoom = map.getView().getZoomForResolution(resolution);
+    const zoom = view.getZoomForResolution(resolution);
     const baseScale = 0.04; // настроечный параметр: уменьшить/увеличить при необходимости
     const scale = baseScale * zoom;
 
