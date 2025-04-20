@@ -49,163 +49,8 @@
   <div id="map" style="width: 100%; height: 100vh;"></div>
 
   <script>
-// Инициализация карты (OpenLayers)
-const map = new ol.Map({
-  target: 'map',
-  layers: [
-    new ol.layer.Tile({
-      source: new ol.source.OSM()
-    })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([50.5, 56.5]),
-    zoom: 4
-  })
-});
-// Меняем курсор при наведении на маркер
-map.on('pointermove', function (evt) {
-  const hit = map.hasFeatureAtPixel(evt.pixel);
-  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-});
-
-// Элемент для pop-up
-const container = document.createElement('div');
-container.className = 'ol-popup';
-document.body.appendChild(container);
-
-// Overlay — всплывающее окно
-const overlay = new ol.Overlay({
-  element: container,
-  autoPan: true,
-  autoPanAnimation: { duration: 250 }
-});
-map.addOverlay(overlay);
-
-// Слой для врачей
-const vectorLayer = new ol.layer.Vector({
-  source: new ol.source.Vector()
-});
-map.addLayer(vectorLayer);
-
-// Обработка клика по карте
-map.on('click', function(evt) {
-  overlay.setPosition(undefined);
-  map.forEachFeatureAtPixel(evt.pixel, function(feature) {
-    const coord = feature.getGeometry().getCoordinates();
-    container.innerHTML = feature.get('popupContent');
-    overlay.setPosition(coord);
-    return true;
-  });
-});
-
-// Добавление врачей на карту
-doctors.forEach(function(doctor) {
-  const feature = new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
-    popupContent: createPopupHTML(doctor)
-  });
-
-  const style = new ol.style.Style({
-    image: new ol.style.Icon({
-      anchor: [0.5, 1],
-      src: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
-      scale: 1
-    })
-  });
-
-  feature.setStyle(style);
-  vectorLayer.getSource().addFeature(feature);
-});
-
-
-    // Логирование просмотра
-    function logDoctorView(doctorName, eventType = "card_opened") {
-     const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
-     fetch(url, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-       "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-      name: doctorName,
-      event: eventType,
-      timestamp: new Date().toISOString()
-      })
-    }).catch(() => {});
-  }
-
-    function createPopupHTML(doctor) {
-      logDoctorView(doctor.name);
-      const isMobile = window.innerWidth < 768;
-
-      const contactButtons = `
-        <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">${doctor.address}</a>
-        <a href="tel:${doctor.phone}" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">📞 ${doctor.phone}</a>
-        <a href="${doctor.site}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">🌐 Перейти на сайт</a>
-      `;
-
-      const iconsBlock = `
-        <div style="margin-top: 10px; text-align: center;">
-          <div style="display: flex; justify-content: center; gap: 12px;">
-            <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" title="Яндекс.Навигатор">
-              <img src="https://artemm77.github.io/graduates-map/yandex.png" alt="Навигатор" style="width: 50px; height: 50px;" />
-            </a>
-            <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="WhatsApp">
-              <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
-            </a>
-            <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
-              <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
-            </a>
-          </div>
-        </div>
-      `;
-
-      if (isMobile) {
-        return `
-          <div style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 85vw; max-height: 85vh; overflow-y: auto; font-size: 13px; color: #222; font-family: sans-serif;">
-            <style> ::-webkit-scrollbar { display: none; } </style>
-            ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
-            <div>
-              <h3 style="margin: 0; font-size: 15px;">${doctor.name}</h3>
-              <p style="margin: 0;">${doctor.title}<br><strong>${doctor.clinic}</strong></p>
-            </div>
-            <p style="margin: 0;">
-              <span style="text-decoration: underline;">Услуги по репродукции:</span><br>
-              ${doctor.services}
-            </p>
-            <div style="display: flex; flex-direction: column; gap: 8px; align-items: stretch;">
-              ${contactButtons}
-            </div>
-            ${iconsBlock}
-          </div>
-        `;
-      } else {
-        return `
-          <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 400px; font-size: 13px; color: #222; font-family: sans-serif;">
-            <div style="flex: 1.3;">
-              ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
-                ${contactButtons}
-              </div>
-              ${iconsBlock}
-            </div>
-            <div style="flex: 1.7;">
-              <h3 style="margin: 0; font-size: 15px;">${doctor.name}</h3>
-              <p style="margin: 0;">${doctor.title}<br><strong>${doctor.clinic}</strong></p>
-              <p style="margin-top: 10px;">
-                <span style="text-decoration: underline;">Услуги по репродукции:</span><br>
-                ${doctor.services}
-              </p>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-
-    // Массив данных врачей (сгенерировано из Excel)
-    var doctors = [
+   // Массив данных врачей (сгенерировано из Excel)
+   var doctors = [
       {
         name: "Софья Богданова",
         city: "Санкт-Петербург",
@@ -403,7 +248,165 @@ doctors.forEach(function(doctor) {
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
       // Добавь оставшихся врачей вручную по шаблону
-    ];
+    ]; 
+      // ✅ ВСТАВЬ ПРОВЕРКУ ЗДЕСЬ:
+  if (!window.ol || !ol.Map) {
+    alert("Ошибка загрузки OpenLayers. Проверьте подключение к CDN.");
+    throw new Error("OpenLayers не загружен");
+  }
+// Инициализация карты (OpenLayers)
+const map = new ol.Map({
+  target: 'map',
+  layers: [
+    new ol.layer.Tile({
+      source: new ol.source.OSM()
+    })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([50.5, 56.5]),
+    zoom: 4
+  })
+});
+// Меняем курсор при наведении на маркер
+map.on('pointermove', function (evt) {
+  const hit = map.hasFeatureAtPixel(evt.pixel);
+  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+});
+
+// Элемент для pop-up
+const container = document.createElement('div');
+container.className = 'ol-popup';
+document.body.appendChild(container);
+
+// Overlay — всплывающее окно
+const overlay = new ol.Overlay({
+  element: container,
+  autoPan: true,
+  autoPanAnimation: { duration: 250 }
+});
+map.addOverlay(overlay);
+
+// Слой для врачей
+const vectorLayer = new ol.layer.Vector({
+  source: new ol.source.Vector()
+});
+map.addLayer(vectorLayer);
+
+// Обработка клика по карте
+map.on('click', function(evt) {
+  overlay.setPosition(undefined);
+  map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+    const coord = feature.getGeometry().getCoordinates();
+    container.innerHTML = feature.get('popupContent');
+    overlay.setPosition(coord);
+    return true;
+  });
+});
+
+// Добавление врачей на карту
+doctors.forEach(function(doctor) {
+  const feature = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
+    popupContent: createPopupHTML(doctor)
+  });
+
+  const style = new ol.style.Style({
+    image: new ol.style.Icon({
+      anchor: [0.5, 1],
+      src: "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png"),
+      scale: 1
+    })
+  });
+
+  feature.setStyle(style);
+  vectorLayer.getSource().addFeature(feature);
+});
+
+
+    // Логирование просмотра
+    function logDoctorView(doctorName, eventType = "card_opened") {
+     const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
+     fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+       "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+      name: doctorName,
+      event: eventType,
+      timestamp: new Date().toISOString()
+      })
+    }).catch(() => {});
+  }
+
+    function createPopupHTML(doctor) {
+      logDoctorView(doctor.name);
+      const isMobile = window.innerWidth < 768;
+
+      const contactButtons = `
+        <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">${doctor.address}</a>
+        <a href="tel:${doctor.phone}" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">📞 ${doctor.phone}</a>
+        <a href="${doctor.site}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">🌐 Перейти на сайт</a>
+      `;
+
+      const iconsBlock = `
+        <div style="margin-top: 10px; text-align: center;">
+          <div style="display: flex; justify-content: center; gap: 12px;">
+            <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" title="Яндекс.Навигатор">
+              <img src="https://artemm77.github.io/graduates-map/yandex.png" alt="Навигатор" style="width: 50px; height: 50px;" />
+            </a>
+            <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="WhatsApp">
+              <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
+            </a>
+            <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
+              <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
+            </a>
+          </div>
+        </div>
+      `;
+
+      if (isMobile) {
+        return `
+          <div style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 85vw; max-height: 85vh; overflow-y: auto; font-size: 13px; color: #222; font-family: sans-serif;">
+            <style> ::-webkit-scrollbar { display: none; } </style>
+            ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
+            <div>
+              <h3 style="margin: 0; font-size: 15px;">${doctor.name}</h3>
+              <p style="margin: 0;">${doctor.title}<br><strong>${doctor.clinic}</strong></p>
+            </div>
+            <p style="margin: 0;">
+              <span style="text-decoration: underline;">Услуги по репродукции:</span><br>
+              ${doctor.services}
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-items: stretch;">
+              ${contactButtons}
+            </div>
+            ${iconsBlock}
+          </div>
+        `;
+      } else {
+        return `
+          <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 400px; font-size: 13px; color: #222; font-family: sans-serif;">
+            <div style="flex: 1.3;">
+              ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
+                ${contactButtons}
+              </div>
+              ${iconsBlock}
+            </div>
+            <div style="flex: 1.7;">
+              <h3 style="margin: 0; font-size: 15px;">${doctor.name}</h3>
+              <p style="margin: 0;">${doctor.title}<br><strong>${doctor.clinic}</strong></p>
+              <p style="margin-top: 10px;">
+                <span style="text-decoration: underline;">Услуги по репродукции:</span><br>
+                ${doctor.services}
+              </p>
+            </div>
+          </div>
+        `;
+      }
+    }
   </script>
 </body>
 </html>
