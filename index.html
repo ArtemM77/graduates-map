@@ -325,12 +325,6 @@ doctors.forEach(d => {
 
   vectorSource.addFeature(feature);
 });
-
-
-    const vectorSource = new ol.source.Vector();
-    const vectorLayer = new ol.layer.Vector({ source: vectorSource });
-    map.addLayer(vectorLayer);
-
     map.on('click', function (evt) {
       const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
       if (feature) {
