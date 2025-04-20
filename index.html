@@ -307,14 +307,29 @@ map.on('click', function(evt) {
 
 // Добавление врачей на карту
 doctors.forEach(function(doctor) {
+  const iconUrl = "https://artemm77.github.io/graduates-map/" + (doctor.clinic_logo || "default.png");
+
+  const icon = new ol.style.Icon({
+    anchor: [0.5, 1],
+    src: iconUrl,
+    crossOrigin: 'anonymous',
+    scale: 0.4 // начальный размер булавки
+  });
+
+  const style = new ol.style.Style({ image: icon });
+
   const feature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
     popupContent: createPopupHTML(doctor)
   });
 
-  feature.set('doctor', doctor); // сохраняем данные
+  feature.setStyle(style);
+  feature.set('icon', icon);
+  feature.set('doctor', doctor);
   vectorLayer.getSource().addFeature(feature);
 });
+
+
 
 // Обновление стилей иконок при изменении масштаба
 function updateIconScales() {
