@@ -4,73 +4,48 @@
   <meta charset="UTF-8">
   <title>Где заморозить сперму кобеля?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
+  <script src="https://cdn.jsdelivr.net/npm/ol@latest/ol.js"></script>
   <style>
-    html, body, #map {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-    }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    #map { width: 100%; height: 100%; }
     .ol-popup {
-      background: white;
-      border: 1px solid #ccc;
+      position: absolute;
+      background-color: white;
       padding: 15px;
-      border-radius: 8px;
+      border: 1px solid #ccc;
+      bottom: 12px;
+      left: -50px;
+      min-width: 250px;
       max-width: 90vw;
-      max-height: 85vh;
-      overflow-y: auto;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       font-family: sans-serif;
       font-size: 13px;
       color: #222;
+      overflow-y: auto;
+      max-height: 80vh;
     }
-    .ol-popup img {
-      max-width: 100%;
-      border-radius: 4px;
+    .ol-popup:after, .ol-popup:before {
+      top: 100%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
     }
-    .contact-buttons a, .icon-links a {
-      display: block;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 8px 10px;
-      font-size: 10px;
-      text-decoration: none;
-      color: black;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    .icon-links {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .icon-links img {
-      width: 50px;
-      height: 50px;
+    .ol-popup:after {
+      border-top-color: white;
+      border-width: 10px;
+      left: 48px;
+      margin-left: -10px;
     }
   </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.3.0/ol.css">
-  <script src="https://cdn.jsdelivr.net/npm/ol@v7.3.0/dist/ol.js"></script>
 </head>
 <body>
   <div id="map"></div>
+  <div id="popup" class="ol-popup" style="display: none;"></div>
   <script>
-    // Логирование событий
-    function logDoctorView(name, event = "card_opened") {
-      const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
-      fetch(url, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          event,
-          timestamp: new Date().toISOString()
-        })
-      }).catch(() => {});
-    }
-
     const doctors = [
       {
         name: "Софья Богданова",
@@ -84,7 +59,7 @@
         phone: "+79213945667",
         site: "https://cryovet.ru/",
         title: "врач-репродуктолог лаборатории",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-доставка охлажденной и замороженной спермы<br>-выезд в регионы<br>-искусственное осеменение<br>-услуги криобанка<br>-консультативные услуги<br>-проведение мастер-классов<br>"
+        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-доставка охлажденной и замороженной спермы<br>-выез в регионы<br>-искусственное осеменение<br>-услуги криобанка<br>-консультативные услуги<br>-проведение мастер-классов<br>"
       },
       {
         name: "Анастасия Замятина",
@@ -268,73 +243,94 @@
         title: "врач-репродуктолог ветеринарной клиники ",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
       },
-      // ...добавим остальных позже
+      // остальные врачи по аналогии...
     ];
-
-    const view = new ol.View({
-      center: ol.proj.fromLonLat([50.5, 56.5]),
-      zoom: 4
-    });
 
     const map = new ol.Map({
       target: 'map',
       layers: [
         new ol.layer.Tile({ source: new ol.source.OSM() })
       ],
-      view: view
+      view: new ol.View({
+        center: ol.proj.fromLonLat([50.5, 56.5]),
+        zoom: 4
+      })
     });
 
-    const overlay = new ol.Overlay({
-      element: document.createElement('div'),
-      autoPan: true,
-      autoPanAnimation: { duration: 250 }
-    });
+    const container = document.getElementById('popup');
+    const overlay = new ol.Overlay({ element: container, autoPan: true, autoPanAnimation: { duration: 250 } });
     map.addOverlay(overlay);
 
-    doctors.forEach(doc => {
-      const iconFeature = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.fromLonLat([doc.lng, doc.lat])),
-        doctor: doc
-      });
+    function logDoctorView(name) {
+      fetch("https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, event: "card_opened", timestamp: new Date().toISOString() })
+      }).catch(() => {});
+    }
 
-      const iconStyle = new ol.style.Style({
+    function createPopupHTML(d) {
+      const isMobile = window.innerWidth < 768;
+      const phoneDigits = d.phone.replace(/[^0-9]/g, '');
+      const contactButtons = `
+        <a href="https://yandex.ru/maps/?text=${d.address}" target="_blank">${d.address}</a><br>
+        <a href="tel:${d.phone}">📞 ${d.phone}</a><br>
+        <a href="${d.site}" target="_blank">🌐 Перейти на сайт</a>
+      `;
+      const icons = `
+        <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+          <a href="yandexnavi://build_route_on_map?lat_to=${d.lat}&lon_to=${d.lng}" title="Яндекс.Навигатор">
+            <img src="https://artemm77.github.io/graduates-map/yandex.png" width="40" height="40">
+          </a>
+          <a href="https://wa.me/${phoneDigits}" target="_blank" title="WhatsApp">
+            <img src="https://artemm77.github.io/graduates-map/whatsapp.png" width="40" height="40">
+          </a>
+          <a href="https://t.me/${phoneDigits}" target="_blank" title="Telegram">
+            <img src="https://artemm77.github.io/graduates-map/telegram.png" width="40" height="40">
+          </a>
+        </div>`;
+
+      return `
+        <div style="max-width: 90vw;">
+          <img src="https://artemm77.github.io/graduates-map/${d.photo}" style="width: 100%; border-radius: 4px;" />
+          <h3>${d.name}</h3>
+          <p>${d.title}<br><strong>${d.clinic}</strong></p>
+          <p><u>Услуги по репродукции:</u><br>${d.services}</p>
+          ${contactButtons}
+          ${icons}
+        </div>
+      `;
+    }
+
+    doctors.forEach(d => {
+      const feature = new ol.Feature({ geometry: new ol.geom.Point(ol.proj.fromLonLat([d.lng, d.lat])), doctor: d });
+      feature.setStyle(new ol.style.Style({
         image: new ol.style.Icon({
-          src: `https://artemm77.github.io/graduates-map/${doc.clinic_logo}`,
-          scale: 0.5,
-          anchor: [0.5, 1]
+          src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
+          anchor: [0.5, 1],
+          scale: 0.5
         })
-      });
-      iconFeature.setStyle(iconStyle);
-
-      const vectorSource = new ol.source.Vector({ features: [iconFeature] });
-      const vectorLayer = new ol.layer.Vector({ source: vectorSource });
-      map.addLayer(vectorLayer);
+      }));
+      vectorSource.addFeature(feature);
     });
 
-    map.on('singleclick', function (evt) {
-      map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-        const doctor = feature.get('doctor');
-        const element = overlay.getElement();
-        element.className = 'ol-popup';
-        element.innerHTML = `
-          <img src="https://artemm77.github.io/graduates-map/${doctor.photo}" />
-          <h3 style="margin: 10px 0 0 0; font-size: 15px;">${doctor.name}</h3>
-          <p style="margin: 0;">${doctor.title}<br><strong>${doctor.clinic}</strong></p>
-          <p style="margin-top: 10px;"><span style="text-decoration: underline;">Услуги по репродукции:</span><br>${doctor.services}</p>
-          <div class="contact-buttons">
-            <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank">${doctor.address}</a>
-            <a href="tel:${doctor.phone}">📞 ${doctor.phone}</a>
-            <a href="${doctor.site}" target="_blank">🌐 Перейти на сайт</a>
-          </div>
-          <div class="icon-links">
-            <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}"><img src="https://artemm77.github.io/graduates-map/yandex.png"></a>
-            <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}"><img src="https://artemm77.github.io/graduates-map/whatsapp.png"></a>
-            <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}"><img src="https://artemm77.github.io/graduates-map/telegram.png"></a>
-          </div>
-        `;
+    const vectorSource = new ol.source.Vector();
+    const vectorLayer = new ol.layer.Vector({ source: vectorSource });
+    map.addLayer(vectorLayer);
+
+    map.on('click', function (evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
+      if (feature) {
+        const d = feature.get('doctor');
+        container.innerHTML = createPopupHTML(d);
         overlay.setPosition(evt.coordinate);
-        logDoctorView(doctor.name);
-      });
+        container.style.display = 'block';
+        logDoctorView(d.name);
+      } else {
+        overlay.setPosition(undefined);
+        container.style.display = 'none';
+      }
     });
   </script>
 </body>
