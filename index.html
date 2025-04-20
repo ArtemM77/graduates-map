@@ -304,34 +304,34 @@
       `;
     }
 
-    // 1. Сначала объявляем источник и слой
+// 1. Сначала объявляем источник и слой
 const vectorSource = new ol.source.Vector();
 const vectorLayer = new ol.layer.Vector({ source: vectorSource });
 map.addLayer(vectorLayer);
 
-// 2. Затем добавляем точки врачей
+// 2. Добавляем булавки с адаптивным масштабом
 doctors.forEach(d => {
   const feature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([d.lng, d.lat])),
     doctor: d
   });
 
+  // Стилизация с адаптивным масштабом в зависимости от зума
   feature.setStyle(function (resolution) {
-  const zoom = map.getView().getZoomForResolution(resolution);
-  const baseScale = 0.04; // базовый масштаб на зуме 4
-  const scale = baseScale * zoom;
+    const zoom = map.getView().getZoomForResolution(resolution);
+    const baseScale = 0.04; // настроечный параметр: уменьшить/увеличить при необходимости
+    const scale = baseScale * zoom;
 
-  return new ol.style.Style({
-    image: new ol.style.Icon({
-      src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
-      anchor: [0.42, 1],
-      anchorXUnits: 'fraction',
-      anchorYUnits: 'fraction',
-      scale: scale
-    })
+    return new ol.style.Style({
+      image: new ol.style.Icon({
+        src: `https://artemm77.github.io/graduates-map/${d.clinic_logo || 'default.png'}`,
+        anchor: [0.42, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        scale: scale
+      })
+    });
   });
-});
-
 
   vectorSource.addFeature(feature);
 });
