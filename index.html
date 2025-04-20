@@ -365,7 +365,7 @@ map.getView().on('change:resolution', updateIconScales);
 // Инициализация иконок при первом рендере
 function updateIconScales() {
   const zoom = map.getView().getZoom();
-  const BASE_ICON_SCALE = 0.03;
+  const BASE_ICON_SCALE = 0.05;
   const scale = BASE_ICON_SCALE * Math.max(0.6, 1 + (zoom - 4) * 0.1); // вычисляем масштаб
 
   vectorLayer.getSource().getFeatures().forEach(feature => {
