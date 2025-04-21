@@ -287,11 +287,12 @@ console.log("doctors count:", doctors.length);
 [...doctors]
   .sort((a, b) => a.lat - b.lat) // сначала север, потом юг
   .forEach((doctor) => {
+    const offset = doctor.lat + Math.random() * 0.0001; // легкий сдвиг на юг
+
     const feature = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
+      geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, offset])),
       doctor: doctor
     });
-
     const iconStyle = new ol.style.Style({
       image: new ol.style.Icon({
         src: `https://artemm77.github.io/graduates-map/${doctor.clinic_logo || "default.png"}`,
