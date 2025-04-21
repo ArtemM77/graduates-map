@@ -284,22 +284,23 @@ map.addOverlay(overlay);
 console.log("init script working");
 
 console.log("doctors count:", doctors.length);
-doctors.forEach((doctor, i) => {
-  console.log(`добавляю ${i + 1}: ${doctor.name}`);
-  const feature = new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
-    doctor: doctor
-  });
-  const iconStyle = new ol.style.Style({
-  zIndex: Math.round(doctor.lat * 1000), // южнее = выше
-  image: new ol.style.Icon({
-    src: `https://artemm77.github.io/graduates-map/${doctor.clinic_logo || "default.png"}`,
-    scale: 1,
-    imgSize: [150, 150] // приведение всех PNG к единому виду
-  })
-});
-feature.setStyle(iconStyle);
-  vectorSource.addFeature(feature);
+[...doctors]
+  .sort((a, b) => a.lat - b.lat) // сначала север, потом юг
+  .forEach((doctor) => {
+    const feature = new ol.Feature({
+      geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
+      doctor: doctor
+    });
+
+    const iconStyle = new ol.style.Style({
+      image: new ol.style.Icon({
+        src: `https://artemm77.github.io/graduates-map/${doctor.clinic_logo || "default.png"}`,
+        scale: 0.2
+      })
+    });
+
+    feature.setStyle(iconStyle);
+    vectorSource.addFeature(feature);
 });
 
 map.on('click', function (evt) {
