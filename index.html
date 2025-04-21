@@ -279,6 +279,8 @@ const overlay = new ol.Overlay({
 });
 map.addOverlay(overlay);
 
+console.log("init script working");
+
 doctors.forEach((doctor) => {
   const feature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
