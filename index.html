@@ -283,7 +283,9 @@ map.addOverlay(overlay);
 
 console.log("init script working");
 
-doctors.forEach((doctor) => {
+console.log("doctors count:", doctors.length);
+doctors.forEach((doctor, i) => {
+  console.log(`добавляю ${i + 1}: ${doctor.name}`);
   const feature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, doctor.lat])),
     doctor: doctor
