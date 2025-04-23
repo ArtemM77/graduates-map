@@ -279,6 +279,14 @@ const overlay = new ol.Overlay({
 });
 map.addOverlay(overlay);
 
+// ✅ Добавлено: закрытие карточки при клике вне неё
+map.on('click', function (evt) {
+  const clickedElement = evt.originalEvent.target;
+  if (!popupContainer.contains(clickedElement)) {
+    overlay.setPosition(undefined);
+  }
+});
+
 [...doctors].sort((a, b) => a.lat - b.lat).forEach((doctor) => {
   const el = document.createElement('div');
   el.className = 'custom-marker';
@@ -346,6 +354,9 @@ function createPopupHTML(doctor) {
     return `
       <div style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 85vw; max-height: 85vh; overflow-y: auto; font-size: 13px; color: #222; font-family: sans-serif;">
         <style> ::-webkit-scrollbar { display: none; } </style>
+        <div style="text-align: right;">
+          <button onclick="overlay.setPosition(undefined)" style="background: none; border: none; font-size: 18px; cursor: pointer;">×</button>
+        </div>
         ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
         <div>
           <h3 style="margin: 0; font-size: 15px;">${doctor.name}</h3>
@@ -365,6 +376,9 @@ function createPopupHTML(doctor) {
     return `
       <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 400px; font-size: 13px; color: #222; font-family: sans-serif;">
         <div style="flex: 1.3;">
+          <div style="text-align: right;">
+            <button onclick="overlay.setPosition(undefined)" style="background: none; border: none; font-size: 18px; cursor: pointer;">×</button>
+          </div>
           ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
           <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
             ${contactButtons}
