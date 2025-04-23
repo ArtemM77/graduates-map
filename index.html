@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Где заморозить сперму кобеля?</title>
+  <link rel="icon" href="https://artemm77.github.io/graduates-map/favicon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/ol@7.4.0/ol.css">
   <style>
@@ -46,6 +47,14 @@
       border-width: 11px;
       left: 48px;
       margin-left: -11px;
+    }
+    .custom-marker {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      cursor: pointer;
+    }
+    .custom-marker img {
+      width: 80px;
     }
   </style>
   <script src="https://unpkg.com/ol@7.4.0/dist/ol.js"></script>
@@ -257,20 +266,9 @@ const doctors = [
 
     const map = new ol.Map({
   target: 'map',
-  layers: [
-    new ol.layer.Tile({ source: new ol.source.OSM() })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([50.5, 56.5]),
-    zoom: 4
-  })
+  layers: [ new ol.layer.Tile({ source: new ol.source.OSM() }) ],
+  view: new ol.View({ center: ol.proj.fromLonLat([50.5, 56.5]), zoom: 4 })
 });
-
-console.log("Карта инициализируется");
-
-const vectorSource = new ol.source.Vector();
-const vectorLayer = new ol.layer.Vector({ source: vectorSource });
-map.addLayer(vectorLayer);
 
 const popupContainer = document.createElement('div');
 popupContainer.className = 'ol-popup';
@@ -281,40 +279,26 @@ const overlay = new ol.Overlay({
 });
 map.addOverlay(overlay);
 
-console.log("init script working");
+[...doctors].sort((a, b) => a.lat - b.lat).forEach((doctor) => {
+  const el = document.createElement('div');
+  el.className = 'custom-marker';
+  el.style.zIndex = Math.floor(doctor.lat * 1000);
+  el.title = doctor.name;
+  el.innerHTML = `<img src="https://artemm77.github.io/graduates-map/${doctor.clinic_logo}" alt="${doctor.name}">`;
 
-console.log("doctors count:", doctors.length);
-[...doctors]
-  .sort((a, b) => a.lat - b.lat) // сначала север, потом юг
-  .forEach((doctor) => {
-    const offset = doctor.lat + Math.random() * 0.0001; // легкий сдвиг на юг
-
-    const feature = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([doctor.lng, offset])),
-      doctor: doctor
-    });
-    const iconStyle = new ol.style.Style({
-      image: new ol.style.Icon({
-        src: `https://artemm77.github.io/graduates-map/${doctor.clinic_logo || "default.png"}`,
-        scale: 0.2
-      })
-    });
-
-    feature.setStyle(iconStyle);
-    vectorSource.addFeature(feature);
-});
-
-map.on('click', function (evt) {
-  overlay.setPosition(undefined);
-  map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-    const doctor = feature.get('doctor');
-    if (!doctor) return;
-
+  el.addEventListener('click', () => {
     logDoctorView(doctor.name);
     popupContainer.innerHTML = createPopupHTML(doctor);
     overlay.setPosition(ol.proj.fromLonLat([doctor.lng, doctor.lat]));
-    return true;
   });
+
+  const markerOverlay = new ol.Overlay({
+    element: el,
+    position: ol.proj.fromLonLat([doctor.lng, doctor.lat]),
+    positioning: 'bottom-center',
+    stopEvent: false
+  });
+  map.addOverlay(markerOverlay);
 });
 
 function logDoctorView(doctorName, eventType = "card_opened") {
