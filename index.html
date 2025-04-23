@@ -391,7 +391,7 @@ function createPopupHTML(doctor) {
       <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 550px; font-size: 13px; color: #222; font-family: sans-serif;">
         <div style="flex: 1.3;">
           <div style="text-align: right;">
-            <button onclick="overlay.setPosition(undefined)" style="background: none; border: none; font-size: 18px; cursor: pointer;">×</button>
+            <button onclick="overlay.setPosition(undefined)" style="background: none; border: none; font-size: 18px; font-weight: normal; color: #888; cursor: pointer; position: absolute; top: 8px; right: 12px;">×</button>
           </div>
           ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
           <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
