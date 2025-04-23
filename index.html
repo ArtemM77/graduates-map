@@ -264,10 +264,21 @@ const doctors = [
       // Добавь оставшихся врачей вручную по шаблону
     ];
 
-    const map = new ol.Map({
+    const isMobile = window.innerWidth < 768;
+
+const initialCenter = isMobile
+  ? ol.proj.fromLonLat([30.401954, 59.721363])  // Криовет
+  : ol.proj.fromLonLat([38.0, 57.5]);           // Центр России
+
+const initialZoom = isMobile ? 10.5 : 5.3;
+
+const map = new ol.Map({
   target: 'map',
   layers: [ new ol.layer.Tile({ source: new ol.source.OSM() }) ],
-  view: new ol.View({ center: ol.proj.fromLonLat([40.0, 57.5]), zoom: 5.3 })
+  view: new ol.View({
+    center: initialCenter,
+    zoom: initialZoom
+  })
 });
 
 const popupContainer = document.createElement('div');
@@ -279,7 +290,7 @@ const overlay = new ol.Overlay({
 });
 map.addOverlay(overlay);
 
-// ✅ Добавлено: закрытие карточки при клике вне неё
+// ✅ Закрытие карточки по клику вне неё
 map.on('click', function (evt) {
   const clickedElement = evt.originalEvent.target;
   if (!popupContainer.contains(clickedElement)) {
@@ -309,6 +320,7 @@ map.on('click', function (evt) {
   map.addOverlay(markerOverlay);
 });
 
+// ✅ Функция логирования карточек
 function logDoctorView(doctorName, eventType = "card_opened") {
   const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
   fetch(url, {
