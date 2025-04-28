@@ -323,14 +323,16 @@ map.on('click', function (evt) {
   map.addOverlay(markerOverlay);
 });
 
-// ✅ Функция логирования карточек
+// ✅ Логирование всех действий в карточке с учётом количества кликов
 function logDoctorView(doctorName, eventType = "card_opened") {
-    console.log("Отправка события:", {
-    name: doctorName,      // Имя врача (например, "Софья Богданова")
-    event: eventType,       // Тип события (например, "card_opened")
-    timestamp: new Date().toISOString() // Время в формате ISO
+  console.log("Логирование события:", {
+    name: doctorName,
+    event: eventType,
+    timestamp: new Date().toISOString()
   });
-    const url = "https://script.google.com/macros/s/AKfycbzcrOd3FM4-qPh3gYceKikfsWsg6MbhXcr9cm2E2GNHTcYx5-FJucgsnjSfgpjnsnk/exec";
+
+  const url = "https://script.google.com/macros/s/AKfycbzcrOd3FM4-qPh3gYceKikfsWsg6MbhXcr9cm2E2GNHTcYx5-FJucgsnjSfgpjnsnk/exec";
+
   fetch(url, {
     method: "POST",
     mode: "no-cors",
@@ -338,12 +340,17 @@ function logDoctorView(doctorName, eventType = "card_opened") {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      name: doctorName,
-      event: eventType,
-      timestamp: new Date().toISOString()
+      name: doctorName,           // Имя врача
+      event: eventType,           // Тип действия
+      timestamp: new Date().toISOString(), // Время события
+      counter: 1                  // Счётчик кликов (+1 на каждое событие)
     })
-  }).catch(() => {});
+  }).catch((error) => {
+    console.error("Ошибка отправки события:", error);
+  });
 }
+
+
 
 function createPopupHTML(doctor) {
   const isMobile = window.innerWidth < 768;
