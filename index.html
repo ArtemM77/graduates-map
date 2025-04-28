@@ -308,6 +308,7 @@ map.on('click', function (evt) {
   el.innerHTML = `<img src="https://artemm77.github.io/graduates-map/${doctor.clinic_logo}" alt="${doctor.name}">`;
 
   el.addEventListener('click', () => {
+    console.log("Клик по маркеру:", doctor.name); // 👈 добавь это!
     logDoctorView(doctor.name);
     popupContainer.innerHTML = createPopupHTML(doctor);
     overlay.setPosition(ol.proj.fromLonLat([doctor.lng, doctor.lat]));
