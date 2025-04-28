@@ -230,7 +230,7 @@ const doctors = [
         address: "Воронеж Волгоградская 44",
         lat: 51.650237,
         lng: 39.268304,
-        phone: "+79092114883",
+        phone: "79092114883",
         site: "https://zdorovet.ru/",
         title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
@@ -379,8 +379,7 @@ function createPopupHTML(doctor) {
            onclick="logDoctorView('${doctor.name}', 'whatsapp_clicked')">
           <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
         </a>
-        <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" 
-           title="Telegram"
+        <a href="tg://resolve?phone=${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
            onclick="logDoctorView('${doctor.name}', 'telegram_clicked')">
           <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
         </a>
