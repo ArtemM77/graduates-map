@@ -324,7 +324,12 @@ map.on('click', function (evt) {
 
 // ✅ Функция логирования карточек
 function logDoctorView(doctorName, eventType = "card_opened") {
-  const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
+    console.log("Отправка события:", {
+    name: doctorName,      // Имя врача (например, "Софья Богданова")
+    event: eventType,       // Тип события (например, "card_opened")
+    timestamp: new Date().toISOString() // Время в формате ISO
+  });
+    const url = "https://script.google.com/macros/s/AKfycbyFyGbiTvE-9CnTgMKBYxx70cXgtXiaE3KW1-2GzMuPVTvRz5FasnQ7aOdkq2hnB9t1/exec";
   fetch(url, {
     method: "POST",
     mode: "no-cors",
