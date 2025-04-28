@@ -325,14 +325,12 @@ map.on('click', function (evt) {
 
 // ✅ Логирование всех действий в карточке с учётом количества кликов
 function logDoctorView(doctorName, eventType = "card_opened") {
-  console.log("Логирование события:", {
+  console.log("Отправка события:", {
     name: doctorName,
     event: eventType,
     timestamp: new Date().toISOString()
   });
-
   const url = "https://script.google.com/macros/s/AKfycbzcrOd3FM4-qPh3gYceKikfsWsg6MbhXcr9cm2E2GNHTcYx5-FJucgsnjSfgpjnsnk/exec";
-
   fetch(url, {
     method: "POST",
     mode: "no-cors",
@@ -340,37 +338,50 @@ function logDoctorView(doctorName, eventType = "card_opened") {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      name: doctorName,           // Имя врача
-      event: eventType,           // Тип действия
-      timestamp: new Date().toISOString(), // Время события
-      counter: 1                  // Счётчик кликов (+1 на каждое событие)
+      name: doctorName,
+      event: eventType,
+      timestamp: new Date().toISOString()
     })
-  }).catch((error) => {
-    console.error("Ошибка отправки события:", error);
-  });
+  }).catch(() => {});
 }
-
-
 
 function createPopupHTML(doctor) {
   const isMobile = window.innerWidth < 768;
 
   const contactButtons = `
-    <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">${doctor.address}</a>
-    <a href="tel:${doctor.phone}" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">📞 ${doctor.phone}</a>
-    <a href="${doctor.site}" target="_blank" style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">🌐 Перейти на сайт</a>
+    <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" 
+       onclick="logDoctorView('${doctor.name}', 'maps_clicked')"
+       style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">
+      ${doctor.address}
+    </a>
+    <a href="tel:${doctor.phone}" 
+       onclick="logDoctorView('${doctor.name}', 'call_clicked')"
+       style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">
+      📞 ${doctor.phone}
+    </a>
+    <a href="${doctor.site}" target="_blank" 
+       onclick="logDoctorView('${doctor.name}', 'site_clicked')"
+       style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">
+      🌐 Перейти на сайт
+    </a>
   `;
 
   const iconsBlock = `
     <div style="margin-top: 10px; text-align: center;">
       <div style="display: flex; justify-content: center; gap: 12px;">
-        <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" title="Яндекс.Навигатор">
+        <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" 
+           title="Яндекс.Навигатор" 
+           onclick="logDoctorView('${doctor.name}', 'navigator_clicked')">
           <img src="https://artemm77.github.io/graduates-map/yandex.png" alt="Навигатор" style="width: 50px; height: 50px;" />
         </a>
-        <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="WhatsApp">
+        <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" 
+           title="WhatsApp"
+           onclick="logDoctorView('${doctor.name}', 'whatsapp_clicked')">
           <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
         </a>
-        <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
+        <a href="https://t.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" 
+           title="Telegram"
+           onclick="logDoctorView('${doctor.name}', 'telegram_clicked')">
           <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
         </a>
       </div>
@@ -404,7 +415,7 @@ function createPopupHTML(doctor) {
       <div style="display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 550px; font-size: 13px; color: #222; font-family: sans-serif;">
         <div style="flex: 1.3;">
           <div style="text-align: right;">
-            <button onclick="overlay.setPosition(undefined)" style="background: none; border: none; font-size: 18px; font-weight: normal; color: #888; cursor: pointer; position: absolute; top: 8px; right: 12px;">×</button>
+            <button onclick="overlay.setPosition(undefined)" style="background: none; border: none; font-size: 18px; cursor: pointer;">×</button>
           </div>
           ${doctor.photo ? `<img src="https://artemm77.github.io/graduates-map/${doctor.photo}" style="width: 100%; border-radius: 4px;" />` : ""}
           <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
@@ -424,6 +435,7 @@ function createPopupHTML(doctor) {
     `;
   }
 }
+
 </script>
 </body>
 </html>
