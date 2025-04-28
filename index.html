@@ -380,10 +380,10 @@ function createPopupHTML(doctor) {
            onclick="logDoctorView('${doctor.name}', 'whatsapp_clicked')">
           <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
         </a>
-        <a href="tg://resolve?phone=${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" title="Telegram">
-           onclick="logDoctorView('${doctor.name}', 'telegram_clicked')">
-          <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
+        <a href="https://t.me/${doctor.telegram_username}" target="_blank" onclick="logDoctorView('${doctor.name}', 'telegram_clicked')">
+           <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
         </a>
+
       </div>
     </div>
   `;
