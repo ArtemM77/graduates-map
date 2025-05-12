@@ -332,13 +332,51 @@ map.on('click', function (evt) {
 });
 
 // ✅ Логирование всех действий в карточке с учётом количества кликов
-function logDoctorView(doctorName, eventType = "card_opened") {
+f// ⬅️ Функция для определения устройства, ОС и браузера
+function detectDeviceInfo() {
+  const ua = navigator.userAgent;
+
+  // Тип устройства
+  const isMobile = /Mobi|Android/i.test(ua);
+  const isTablet = /Tablet|iPad/i.test(ua);
+  let deviceType = "ПК";
+  if (isTablet) deviceType = "Планшет";
+  else if (isMobile) deviceType = "Мобильное устройство";
+
+  // ОС
+  let os = "Неизвестно";
+  if (/Windows NT/i.test(ua)) os = "Windows";
+  else if (/Mac OS X/i.test(ua)) os = "macOS";
+  else if (/Android/i.test(ua)) os = "Android";
+  else if (/iPhone|iPad/i.test(ua)) os = "iOS";
+  else if (/Linux/i.test(ua)) os = "Linux";
+
+  // Браузер
+  let browser = "Неизвестно";
+  if (/Chrome\/\d+/.test(ua) && !/Edg|OPR/.test(ua)) browser = "Chrome";
+  else if (/Safari/.test(ua) && !/Chrome/.test(ua)) browser = "Safari";
+  else if (/Firefox/.test(ua)) browser = "Firefox";
+  else if (/Edg/.test(ua)) browser = "Edge";
+  else if (/OPR/.test(ua)) browser = "Opera";
+
+  return { device: deviceType, os, browser };
+}
+
+// ⬅️ Основная функция логирования — строго 5 граф таблицы
+function logDoctorView(eventType = "card_opened") {
+  const info = detectDeviceInfo();
+  const timestamp = new Date().toISOString();
+
   console.log("Отправка события:", {
-    name: doctorName,
-    event: eventType,
-    timestamp: new Date().toISOString()
+    timestamp: timestamp,
+    device: info.device,
+    os: info.os,
+    browser: info.browser,
+    event: eventType
   });
+
   const url = "https://script.google.com/macros/s/AKfycbzcrOd3FM4-qPh3gYceKikfsWsg6MbhXcr9cm2E2GNHTcYx5-FJucgsnjSfgpjnsnk/exec";
+
   fetch(url, {
     method: "POST",
     mode: "no-cors",
@@ -346,12 +384,15 @@ function logDoctorView(doctorName, eventType = "card_opened") {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      name: doctorName,
-      event: eventType,
-      timestamp: new Date().toISOString()
+      timestamp: timestamp,
+      device: info.device,
+      os: info.os,
+      browser: info.browser,
+      event: eventType
     })
   }).catch(() => {});
 }
+
 
 function createPopupHTML(doctor) {
   const isMobile = window.innerWidth < 768;
