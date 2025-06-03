@@ -377,12 +377,13 @@ function detectDeviceInfo() {
 }
 
 // ⬅️ Основная функция логирования — строго 5 граф таблицы
-function logDoctorView(eventType = "card_opened") {
+function logDoctorView(doctor, eventType = "card_opened") {
   const info = detectDeviceInfo();
   const timestamp = new Date().toISOString();
 
   console.log("Отправка события:", {
     timestamp: timestamp,
+    doctor: doctor,      // 👈 передаём имя врача!
     device: info.device,
     os: info.os,
     browser: info.browser,
@@ -399,6 +400,7 @@ function logDoctorView(eventType = "card_opened") {
     },
     body: JSON.stringify({
       timestamp: timestamp,
+      doctor: doctor,
       device: info.device,
       os: info.os,
       browser: info.browser,
