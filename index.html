@@ -373,7 +373,7 @@ function detectDeviceInfo() {
   else if (/Edg/.test(ua)) browser = "Edge";
   else if (/OPR/.test(ua)) browser = "Opera";
 
-  return { device: deviceType, os, browser };
+  return { device: deviceType, os: os, browser: browser };
 }
 
 // ⬅️ Основная функция логирования — строго 5 граф таблицы
