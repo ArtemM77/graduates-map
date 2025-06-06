@@ -1,0 +1,16 @@
+{
+  "name": "graduates-map",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ol.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
