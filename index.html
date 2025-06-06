@@ -237,7 +237,7 @@ const doctors = [
         address: "Воронеж Волгоградская 44",
         lat: 51.650237,
         lng: 39.268304,
-        phone: "79092114883",
+        phone: "+79092114883",
         site: "https://zdorovet.ru/",
         title: "врач-репродуктолог сети ветеринарных клиник",
         services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка",
@@ -346,7 +346,7 @@ map.on('click', function (evt) {
 });
 
 // ✅ Логирование всех действий в карточке с учётом количества кликов
-f// ⬅️ Функция для определения устройства, ОС и браузера
+// ⬅️ Функция для определения устройства, ОС и браузера
 function detectDeviceInfo() {
   const ua = navigator.userAgent;
 
@@ -376,7 +376,7 @@ function detectDeviceInfo() {
   return { device: deviceType, os, browser };
 }
 
-// ⬅️ Основная функция логирования — строго 5 граф таблицы
+// ⬅️ Основная функция логирования — строго 6 граф таблицы
 function logDoctorView(eventType = "card_opened") {
   const info = detectDeviceInfo();
   const timestamp = new Date().toISOString();
