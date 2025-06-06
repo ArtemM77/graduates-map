@@ -72,6 +72,7 @@
 
 
 <script>
+const DEBUG_MODE = false;
 const doctors = [
       {
         name: "Софья Богданова",
@@ -330,7 +331,7 @@ map.on('click', function (evt) {
   el.innerHTML = `<img src="https://artemm77.github.io/graduates-map/${doctor.clinic_logo}" alt="${doctor.name}">`;
 
   el.addEventListener('click', () => {
-    console.log("Клик по маркеру:", doctor.name); // 👈 добавь это!
+    if (DEBUG_MODE) console.log("Клик по маркеру:", doctor.name);
     logDoctorView(doctor.name);
     popupContainer.innerHTML = createPopupHTML(doctor);
     overlay.setPosition(ol.proj.fromLonLat([doctor.lng, doctor.lat]));
@@ -381,7 +382,7 @@ function logDoctorView(doctor, eventType = "card_opened") {
   const info = detectDeviceInfo();
   const timestamp = new Date().toISOString();
 
-  console.log("Отправка события:", {
+  if (DEBUG_MODE) console.log("Отправка события:", {
     timestamp: timestamp,
     doctor: doctor,      // 👈 передаём имя врача!
     device: info.device,
