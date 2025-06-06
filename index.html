@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Где заморозить сперму?</title>
+  <title>Где заморозить сперму кобеля?</title>
   <link rel="icon" href="https://artemm77.github.io/graduates-map/favicon.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://unpkg.com/ol@7.4.0/ol.css">
@@ -72,7 +72,6 @@
 
 
 <script>
-const DEBUG_MODE = false;
 const doctors = [
       {
         name: "Софья Богданова",
@@ -330,9 +329,9 @@ map.on('click', function (evt) {
   el.title = doctor.name;
   el.innerHTML = `<img src="https://artemm77.github.io/graduates-map/${doctor.clinic_logo}" alt="${doctor.name}">`;
 
-  el.addEventListener('click', () => {␊
-    if (DEBUG_MODE) console.log("Клик по маркеру:", doctor.name);
-    logDoctorView(doctor.name);␊
+  el.addEventListener('click', () => {
+    console.log("Клик по маркеру:", doctor.name); // 👈 добавь это!
+    logDoctorView(doctor.name);
     popupContainer.innerHTML = createPopupHTML(doctor);
     overlay.setPosition(ol.proj.fromLonLat([doctor.lng, doctor.lat]));
   });
@@ -347,7 +346,7 @@ map.on('click', function (evt) {
 });
 
 // ✅ Логирование всех действий в карточке с учётом количества кликов
-// ⬅️ Функция для определения устройства, ОС и браузера
+f// ⬅️ Функция для определения устройства, ОС и браузера
 function detectDeviceInfo() {
   const ua = navigator.userAgent;
 
@@ -374,18 +373,17 @@ function detectDeviceInfo() {
   else if (/Edg/.test(ua)) browser = "Edge";
   else if (/OPR/.test(ua)) browser = "Opera";
 
-  return { device: deviceType, os: os, browser: browser };
+  return { device: deviceType, os, browser };
 }
 
-// ⬅️ Основная функция логирования — строго 6 граф таблицы
-function logDoctorView(doctor, eventType = "card_opened") {␊
-  const info = detectDeviceInfo();␊
-  const timestamp = new Date().toISOString();␊
-␊
-  if (DEBUG_MODE) console.log("Отправка события:", {
-    timestamp: timestamp,␊
-    doctor: doctor,      // 👈 передаём имя врача!␊
-    device: info.device,␊
+// ⬅️ Основная функция логирования — строго 5 граф таблицы
+function logDoctorView(eventType = "card_opened") {
+  const info = detectDeviceInfo();
+  const timestamp = new Date().toISOString();
+
+  console.log("Отправка события:", {
+    timestamp: timestamp,
+    device: info.device,
     os: info.os,
     browser: info.browser,
     event: eventType
@@ -401,7 +399,6 @@ function logDoctorView(doctor, eventType = "card_opened") {␊
     },
     body: JSON.stringify({
       timestamp: timestamp,
-      doctor: doctor,
       device: info.device,
       os: info.os,
       browser: info.browser,
