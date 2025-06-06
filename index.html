@@ -72,6 +72,7 @@
 
 
 <script>
+const DEBUG_MODE = false;
 const doctors = [
       {
         name: "Софья Богданова",
@@ -329,9 +330,9 @@ map.on('click', function (evt) {
   el.title = doctor.name;
   el.innerHTML = `<img src="https://artemm77.github.io/graduates-map/${doctor.clinic_logo}" alt="${doctor.name}">`;
 
-  el.addEventListener('click', () => {
-    console.log("Клик по маркеру:", doctor.name); // 👈 добавь это!
-    logDoctorView(doctor.name);
+  el.addEventListener('click', () => {␊
+    if (DEBUG_MODE) console.log("Клик по маркеру:", doctor.name);
+    logDoctorView(doctor.name);␊
     popupContainer.innerHTML = createPopupHTML(doctor);
     overlay.setPosition(ol.proj.fromLonLat([doctor.lng, doctor.lat]));
   });
@@ -377,14 +378,14 @@ function detectDeviceInfo() {
 }
 
 // ⬅️ Основная функция логирования — строго 6 граф таблицы
-function logDoctorView(doctor, eventType = "card_opened") {
-  const info = detectDeviceInfo();
-  const timestamp = new Date().toISOString();
-
-  console.log("Отправка события:", {
-    timestamp: timestamp,
-    doctor: doctor,      // 👈 передаём имя врача!
-    device: info.device,
+function logDoctorView(doctor, eventType = "card_opened") {␊
+  const info = detectDeviceInfo();␊
+  const timestamp = new Date().toISOString();␊
+␊
+  if (DEBUG_MODE) console.log("Отправка события:", {
+    timestamp: timestamp,␊
+    doctor: doctor,      // 👈 передаём имя врача!␊
+    device: info.device,␊
     os: info.os,
     browser: info.browser,
     event: eventType
