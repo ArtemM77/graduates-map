@@ -346,7 +346,7 @@ map.on('click', function (evt) {
 });
 
 // ✅ Логирование всех действий в карточке с учётом количества кликов
-f// ⬅️ Функция для определения устройства, ОС и браузера
+// ⬅️ Функция для определения устройства, ОС и браузера
 function detectDeviceInfo() {
   const ua = navigator.userAgent;
 
@@ -376,7 +376,7 @@ function detectDeviceInfo() {
   return { device: deviceType, os: os, browser: browser };
 }
 
-// ⬅️ Основная функция логирования — строго 5 граф таблицы
+// ⬅️ Основная функция логирования — строго 6 граф таблицы
 function logDoctorView(doctor, eventType = "card_opened") {
   const info = detectDeviceInfo();
   const timestamp = new Date().toISOString();
