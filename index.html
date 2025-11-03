@@ -22,7 +22,7 @@
       bottom: 12px;
       left: -50px;
       min-width: 300px;
-      width: fit-content; /* ✅ автоматическая ширина */
+      width: fit-content;
       box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       font-size: 13px;
       font-family: sans-serif;
@@ -57,256 +57,253 @@
     .custom-marker img {
       width: 70px;
     }
-      /* Адаптивная настройка для больших экранов */
-  @media (min-width: 768px) {
-    .ol-popup {
-      width: 70%;
-      max-width: 900px; /* ограничиваем разумную ширину на десктопах */
+    @media (min-width: 768px) {
+      .ol-popup {
+        width: 70%;
+        max-width: 900px;
+      }
     }
-  }
   </style>
   <script src="https://unpkg.com/ol@7.4.0/dist/ol.js"></script>
 </head>
 <body>
   <div id="map" style="width: 100%; height: 100vh; background: #eee;"></div>
 
-
 <script>
 const doctors = [
-      {
-        name: "Софья Богданова",
-        city: "Санкт-Петербург",
-        clinic_logo: "cryovet.png",
-        photo: "bogdanova.png",
-        clinic: "Криовет",
-        address: "Пушкин Московская 10",
-        lat: 59.721363,
-        lng: 30.401954,
-        phone: "+79213945667",
-        site: "https://cryovet.ru/",
-        title: "врач-репродуктолог лаборатории",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-доставка охлажденной и замороженной спермы<br>-выезд в регионы<br>-искусственное осеменение<br>-услуги криобанка<br>-консультативные услуги<br>-проведение мастер-классов<br>",
-        telegram_username: "ArtemAM"
-      },
-      {
-        name: "Анастасия Замятина",
-        city: "Нижний Новгород",
-        clinic_logo: "veteco.png",
-        photo: "zamiyatina.png",
-        clinic: "ВетЭко",
-        address: "Н. Новгород Родионова 193",
-        lat: 56.301844,
-        lng: 44.076147,
-        phone: "+79012487829",
-        site: "https://vet-eko.ru/",
-        title: "руководитель, врач-репродуктолог ветеринарной клиники",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
-      },
-      {
-        name: "Анастасия Манторова",
-        city: "Минск",
-        clinic_logo: "bazylevskiy.png",
-        photo: "mantorova.png",
-        clinic: "доктора Базылевского А.А.",
-        address: "Минск Железнодорожная 31",
-        lat: 53.873812,
-        lng: 27.502037,
-        phone: "+375333263000",
-        site: "https://minsk.vet-centre.by/",
-        title: "врач-репродуктолог ветеринарного центра",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
-      },
-      {
-        name: "Александра Каменская",
-        city: "Самара",
-        clinic_logo: "crocozoo.png",
-        photo: "kamenskaya.png",
-        clinic: "Крокозоо",
-        address: "Самара Ленина 1",
-        lat: 53.204967,
-        lng: 50.132739,
-        phone: "+79677620010",
-        site: "https://crocozoo.ru/",
-        title: "главный врач, врач-репродуктолог ветеринарной клиники",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
-      },
-      {
-        name: "Марина Сажнева",
-        city: "Санкт-Петербург",
-        clinic_logo: "doctorgil.png",
-        photo: "sajneva.png",
-        clinic: "доктора Гиль",
-        address: "СПб Энергетиков 70",
-        lat: 59.972196,
-        lng: 30.435014,
-        phone: "+79311094880",
-        site: "https://gilvet.ru/",
-        title: "врач-репродуктолог ветеринарной клиники",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
-      },
-      {
-        name: "Анастасия Кормакова",
-        city: "Санкт-Петербург",
-        clinic_logo: "doctorpets.png",
-        photo: "kormakova.png",
-        clinic: "Dr.Pets",
-        address: "СПб Коллонтай 30",
-        lat: 59.924440,
-        lng: 30.483934,
-        phone: "+78126467626",
-        site: "https://dr-pets.ru/",
-        title: "врач-репродуктолог сети ветеринарных клиник",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
-      },
-      {
-        name: "Татьяна Калмыкова",
-        city: "Санкт-Петербург",
-        clinic_logo: "vega.png",
-        photo: "kalmykova.png",
-        clinic: "Вега",
-        address: "СПб Пулковская 11",
-        lat: 59.838007,
-        lng: 30.348725,
-        phone: "+78124997701",
-        site: "https://vegavet.spb.ru/",
-        title: "врач-репродуктолог сети ветеринарных клиник",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
-      },
-      {
-        name: "Анна Василевская",
-        city: "Новосибирск",
-        clinic_logo: "interra.png",
-        photo: "vasilevskaya.png",
-        clinic: "ИнТерра",
-        address: "Новосибирск Выставочная 15",
-        lat: 54.993255,
-        lng: 82.892859,
-        phone: "+73833830949",
-        site: "https://vet-interra.ru/",
-        title: "врач-репродуктолог сети ветеринарных клиник",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
-      },
-      {
-        name: "Светлана Сенчукова",
-        city: "Новосибирск",
-        clinic_logo: "interra.png",
-        photo: "senchukova.png",
-        clinic: "ИнТерра",
-        address: "Новосибирск Высоцкого 49",
-        lat: 55.029920,
-        lng: 83.020497,
-        phone: "+73833830949",
-        site: "https://vet-interra.ru/",
-        title: "врач-репродуктолог сети ветеринарных клиник",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
-      },
-      {
-        name: "Ирина Сокирко",
-        city: "Омск",
-        clinic_logo: "aveta.png",
-        photo: "sokirko.png",
-        clinic: "Авета",
-        address: "Омск 10 лет Октября 141",
-        lat: 54.987021,
-        lng: 73.416386,
-        phone: "+79136718689",
-        site: "https://avetaomsk.orgs.biz/",
-        title: "главный врач, врач-репродуктолог ветеринарной клиники",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
-      },
-      {
-        name: "Алексей Смычков",
-        city: "Рига",
-        clinic_logo: "kalnberzs.png",
-        photo: "smychkov.png",
-        clinic: "Kalnbērzs",
-        address: "Slokas iela 163a",
-        lat: 56.959893,
-        lng: 24.031668,
-        phone: "+37167425686",
-        site: "https://vet-klinika.lv",
-        title: "ассистент врача-репродуктолога ветеринарной клиники",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-услуги криобанка"
-      },
-      {
-        name: "Татьяна Прохорова",
-        city: "Воронеж",
-        clinic_logo: "zdoroviezivotnyh.png",
-        photo: "prohorova.png",
-        clinic: "Здоровье Животных",
-        address: "Воронеж Волгоградская 44",
-        lat: 51.650237,
-        lng: 39.268304,
-        phone: "+79092114883",
-        site: "https://zdorovet.ru/",
-        title: "врач-репродуктолог сети ветеринарных клиник",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка",
-        telegram_username: "blumingsdale"
-      },
-      {
-        name: "Мария Богачева",
-        city: "Владимир",
-        clinic_logo: "dobriydoctor.png",
-        photo: "bogacheva.png",
-        clinic: "Добрый Доктор",
-        address: "Владимир Луначарского 23",
-        lat: 56.137003,
-        lng: 40.415575,
-        phone: "+74922771424",
-        site: "https://dobrydoctora.ru/",
-        title: "врач-репродуктолог ветеринарной клиники",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
-      },
-      {
-        name: "Екатерина Слижевская",
-        city: "Санкт-Петербург",
-        clinic_logo: "altervet.png",
-        photo: "slijevskaya.png",
-        clinic: "Альтервет",
-        address: "СПб Художников 11",
-        lat: 60.036190,
-        lng: 30.346180,
-        phone: "+78126144040",
-        site: "https://altervet.com/",
-        title: "врач-репродуктолог ветеринарной клиники ",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
-      },
-        {
-        name: "Александра Разувайлова",
-        city: "Санкт-Петербург",
-        clinic_logo: "forside.png",
-        photo: "razuvailova.png",
-        clinic: "Форсайд",
-        address: "СПб 2-й км Приозерского шоссе, территория КК Форсайд",
-        lat: 60.126364,
-        lng: 30.267797,
-        phone: "+78129211556",
-        site: "https://forsideclinic.ru/",
-        title: "врач-репродуктолог ветеринарной клиники ",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение-УЗИ на беременность<br>"
-      },
   {
-        name: "Михаил Атрощенко",
-        city: "Рязань",
-        clinic_logo: "vniik.png",
-        photo: "atroshenko.png",
-        clinic: "ВНИИК им. академика В.В.Калашникова",
-        address: "Рязанская обл. Рыбновский М.Р., Глебковское С.П., п. Дивово, ул. Ученых, зд. 500.",
-        lat: 54.797038,
-        lng: 39.4266757,
-        phone: "+74912240265",
-        site: "https://ruhorses.ru/ru",
-        title: "заведующий лаборатории криобиологии ",
-        services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-УЗИ на беременность<br>"
-      },
-      // Добавь оставшихся врачей вручную по шаблону
-    ];
+    name: "Софья Богданова",
+    city: "Санкт-Петербург",
+    clinic_logo: "cryovet.png",
+    photo: "bogdanova.png",
+    clinic: "Криовет",
+    address: "Пушкин Московская 10",
+    lat: 59.721363,
+    lng: 30.401954,
+    phone: "+79213945667",
+    site: "https://cryovet.ru/",
+    title: "врач-репродуктолог лаборатории",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-доставка охлажденной и замороженной спермы<br>-выезд в регионы<br>-искусственное осеменение<br>-услуги криобанка<br>-консультативные услуги<br>-проведение мастер-классов<br>",
+    telegram_username: "ArtemAM"
+  },
+  {
+    name: "Анастасия Замятина",
+    city: "Нижний Новгород",
+    clinic_logo: "veteco.png",
+    photo: "zamiyatina.png",
+    clinic: "ВетЭко",
+    address: "Н. Новгород Родионова 193",
+    lat: 56.301844,
+    lng: 44.076147,
+    phone: "+79012487829",
+    site: "https://vet-eko.ru/",
+    title: "руководитель, врач-репродуктолог ветеринарной клиники",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+  },
+  {
+    name: "Анастасия Манторова",
+    city: "Минск",
+    clinic_logo: "bazylevskiy.png",
+    photo: "mantorova.png",
+    clinic: "доктора Базылевского А.А.",
+    address: "Минск Железнодорожная 31",
+    lat: 53.873812,
+    lng: 27.502037,
+    phone: "+375333263000",
+    site: "https://minsk.vet-centre.by/",
+    title: "врач-репродуктолог ветеринарного центра",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+  },
+  {
+    name: "Александра Каменская",
+    city: "Самара",
+    clinic_logo: "crocozoo.png",
+    photo: "kamenskaya.png",
+    clinic: "Крокозоо",
+    address: "Самара Ленина 1",
+    lat: 53.204967,
+    lng: 50.132739,
+    phone: "+79677620010",
+    site: "https://crocozoo.ru/",
+    title: "главный врач, врач-репродуктолог ветеринарной клиники",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+  },
+  {
+    name: "Марина Сажнева",
+    city: "Санкт-Петербург",
+    clinic_logo: "doctorgil.png",
+    photo: "sajneva.png",
+    clinic: "доктора Гиль",
+    address: "СПб Энергетиков 70",
+    lat: 59.972196,
+    lng: 30.435014,
+    phone: "+79311094880",
+    site: "https://gilvet.ru/",
+    title: "врач-репродуктолог ветеринарной клиники",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
+  },
+  {
+    name: "Анастасия Кормакова",
+    city: "Санкт-Петербург",
+    clinic_logo: "doctorpets.png",
+    photo: "kormakova.png",
+    clinic: "Dr.Pets",
+    address: "СПб Коллонтай 30",
+    lat: 59.924440,
+    lng: 30.483934,
+    phone: "+78126467626",
+    site: "https://dr-pets.ru/",
+    title: "врач-репродуктолог сети ветеринарных клиник",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
+  },
+  {
+    name: "Татьяна Калмыкова",
+    city: "Санкт-Петербург",
+    clinic_logo: "vega.png",
+    photo: "kalmykova.png",
+    clinic: "Вега",
+    address: "СПб Пулковская 11",
+    lat: 59.838007,
+    lng: 30.348725,
+    phone: "+78124997701",
+    site: "https://vegavet.spb.ru/",
+    title: "врач-репродуктолог сети ветеринарных клиник",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
+  },
+  {
+    name: "Анна Василевская",
+    city: "Новосибирск",
+    clinic_logo: "interra.png",
+    photo: "vasilevskaya.png",
+    clinic: "ИнТерра",
+    address: "Новосибирск Выставочная 15",
+    lat: 54.993255,
+    lng: 82.892859,
+    phone: "+73833830949",
+    site: "https://vet-interra.ru/",
+    title: "врач-репродуктолог сети ветеринарных клиник",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+  },
+  {
+    name: "Светлана Сенчукова",
+    city: "Новосибирск",
+    clinic_logo: "interra.png",
+    photo: "senchukova.png",
+    clinic: "ИнТерра",
+    address: "Новосибирск Высоцкого 49",
+    lat: 55.029920,
+    lng: 83.020497,
+    phone: "+73833830949",
+    site: "https://vet-interra.ru/",
+    title: "врач-репродуктолог сети ветеринарных клиник",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
+  },
+  {
+    name: "Ирина Сокирко",
+    city: "Омск",
+    clinic_logo: "aveta.png",
+    photo: "sokirko.png",
+    clinic: "Авета",
+    address: "Омск 10 лет Октября 141",
+    lat: 54.987021,
+    lng: 73.416386,
+    phone: "+79136718689",
+    site: "https://avetaomsk.orgs.biz/",
+    title: "главный врач, врач-репродуктолог ветеринарной клиники",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
+  },
+  {
+    name: "Алексей Смычков",
+    city: "Рига",
+    clinic_logo: "kalnberzs.png",
+    photo: "smychkov.png",
+    clinic: "Kalnbērzs",
+    address: "Slokas iela 163a",
+    lat: 56.959893,
+    lng: 24.031668,
+    phone: "+37167425686",
+    site: "https://vet-klinika.lv",
+    title: "ассистент врача-репродуктолога ветеринарной клиники",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-услуги криобанка"
+  },
+  {
+    name: "Татьяна Прохорова",
+    city: "Воронеж",
+    clinic_logo: "zdoroviezivotnyh.png",
+    photo: "prohorova.png",
+    clinic: "Здоровье Животных",
+    address: "Воронеж Волгоградская 44",
+    lat: 51.650237,
+    lng: 39.268304,
+    phone: "+79092114883",
+    site: "https://zdorovet.ru/",
+    title: "врач-репродуктолог сети ветеринарных клиник",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка",
+    telegram_username: "blumingsdale"
+  },
+  {
+    name: "Мария Богачева",
+    city: "Владимир",
+    clinic_logo: "dobriydoctor.png",
+    photo: "bogacheva.png",
+    clinic: "Добрый Доктор",
+    address: "Владимир Луначарского 23",
+    lat: 56.137003,
+    lng: 40.415575,
+    phone: "+74922771424",
+    site: "https://dobrydoctora.ru/",
+    title: "врач-репродуктолог ветеринарной клиники",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-услуги криобанка"
+  },
+  {
+    name: "Екатерина Слижевская",
+    city: "Санкт-Петербург",
+    clinic_logo: "altervet.png",
+    photo: "slijevskaya.png",
+    clinic: "Альтервет",
+    address: "СПб Художников 11",
+    lat: 60.036190,
+    lng: 30.346180,
+    phone: "+78126144040",
+    site: "https://altervet.com/",
+    title: "врач-репродуктолог ветеринарной клиники ",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение"
+  },
+  {
+    name: "Александра Разувайлова",
+    city: "Санкт-Петербург",
+    clinic_logo: "forside.png",
+    photo: "razuvailova.png",
+    clinic: "Форсайд",
+    address: "СПб 2-й км Приозерского шоссе, территория КК Форсайд",
+    lat: 60.126364,
+    lng: 30.267797,
+    phone: "+78129211556",
+    site: "https://forsideclinic.ru/",
+    title: "врач-репродуктолог ветеринарной клиники ",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение-УЗИ на беременность<br>"
+  },
+  {
+    name: "Михаил Атрощенко",
+    city: "Рязань",
+    clinic_logo: "vniik.png",
+    photo: "atroshenko.png",
+    clinic: "ВНИИК им. академика В.В.Калашникова",
+    address: "Рязанская обл. Рыбновский М.Р., Глебковское С.П., п. Дивово, ул. Ученых, зд. 500.",
+    lat: 54.797038,
+    lng: 39.4266757,
+    phone: "+74912240265",
+    site: "https://ruhorses.ru/ru",
+    title: "заведующий лаборатории криобиологии ",
+    services: "-спермограмма<br>-приготовление охлажденной спермы<br>-криоконсервация спермы<br>-искусственное осеменение<br>-УЗИ на беременность<br>"
+  }
+];
 
-    const isMobile = window.innerWidth < 768;
+const isMobile = window.innerWidth < 768;
 
 const initialCenter = isMobile
-  ? ol.proj.fromLonLat([30.401954, 59.721363])  // Криовет
-  : ol.proj.fromLonLat([38.0, 57.5]);           // Центр России
+  ? ol.proj.fromLonLat([30.401954, 59.721363])
+  : ol.proj.fromLonLat([38.0, 57.5]);
 
 const initialZoom = isMobile ? 10.5 : 5.3;
 
@@ -328,7 +325,6 @@ const overlay = new ol.Overlay({
 });
 map.addOverlay(overlay);
 
-// ✅ Закрытие карточки по клику вне неё
 map.on('click', function (evt) {
   const clickedElement = evt.originalEvent.target;
   if (!popupContainer.contains(clickedElement)) {
@@ -344,7 +340,7 @@ map.on('click', function (evt) {
   el.innerHTML = `<img src="https://artemm77.github.io/graduates-map/${doctor.clinic_logo}" alt="${doctor.name}">`;
 
   el.addEventListener('click', () => {
-    console.log("Клик по маркеру:", doctor.name); // 👈 добавь это!
+    console.log("Клик по маркеру:", doctor.name);
     logDoctorView(doctor.name);
     popupContainer.innerHTML = createPopupHTML(doctor);
     overlay.setPosition(ol.proj.fromLonLat([doctor.lng, doctor.lat]));
@@ -359,19 +355,15 @@ map.on('click', function (evt) {
   map.addOverlay(markerOverlay);
 });
 
-// ✅ Логирование всех действий в карточке с учётом количества кликов
-// ⬅️ Функция для определения устройства, ОС и браузера
 function detectDeviceInfo() {
   const ua = navigator.userAgent;
 
-  // Тип устройства
   const isMobile = /Mobi|Android/i.test(ua);
   const isTablet = /Tablet|iPad/i.test(ua);
   let deviceType = "ПК";
   if (isTablet) deviceType = "Планшет";
   else if (isMobile) deviceType = "Мобильное устройство";
 
-  // ОС
   let os = "Неизвестно";
   if (/Windows NT/i.test(ua)) os = "Windows";
   else if (/Mac OS X/i.test(ua)) os = "macOS";
@@ -379,7 +371,6 @@ function detectDeviceInfo() {
   else if (/iPhone|iPad/i.test(ua)) os = "iOS";
   else if (/Linux/i.test(ua)) os = "Linux";
 
-  // Браузер
   let browser = "Неизвестно";
   if (/Chrome\/\d+/.test(ua) && !/Edg|OPR/.test(ua)) browser = "Chrome";
   else if (/Safari/.test(ua) && !/Chrome/.test(ua)) browser = "Safari";
@@ -390,7 +381,6 @@ function detectDeviceInfo() {
   return { device: deviceType, os, browser };
 }
 
-// ⬅️ Основная функция логирования — строго 6 граф таблицы
 function logDoctorView(eventType = "card_opened") {
   const info = detectDeviceInfo();
   const timestamp = new Date().toISOString();
@@ -421,23 +411,32 @@ function logDoctorView(eventType = "card_opened") {
   }).catch(() => {});
 }
 
+function openYandexNavigator(lat, lng, doctorName) {
+  logDoctorView(doctorName, 'navigator_clicked');
+  
+  window.location.href = `yandexnavi://build_route_on_map?lat=${lat}&lon=${lng}`;
+  
+  setTimeout(function() {
+    window.open(`https://yandex.ru/maps/?pt=${lng},${lat}&z=15&l=map`, '_blank');
+  }, 500);
+}
 
 function createPopupHTML(doctor) {
   const isMobile = window.innerWidth < 768;
 
   const contactButtons = `
-    <a href="https://yandex.ru/maps/?text=${doctor.address}" target="_blank" 
-       onclick="logDoctorView('${doctor.name}', 'maps_clicked')"
+    <a href="https://yandex.ru/maps/?text=${encodeURIComponent(doctor.address)}" target="_blank" 
+       onclick="logDoctorView('${doctor.name.replace(/'/g, "\\'")}', 'maps_clicked')"
        style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">
       ${doctor.address}
     </a>
     <a href="tel:${doctor.phone}" 
-       onclick="logDoctorView('${doctor.name}', 'call_clicked')"
+       onclick="logDoctorView('${doctor.name.replace(/'/g, "\\'")}', 'call_clicked')"
        style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">
       📞 ${doctor.phone}
     </a>
     <a href="${doctor.site}" target="_blank" 
-       onclick="logDoctorView('${doctor.name}', 'site_clicked')"
+       onclick="logDoctorView('${doctor.name.replace(/'/g, "\\'")}', 'site_clicked')"
        style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 10px; text-decoration: none; color: black; text-align: center;">
       🌐 Перейти на сайт
     </a>
@@ -446,20 +445,19 @@ function createPopupHTML(doctor) {
   const iconsBlock = `
     <div style="margin-top: 10px; text-align: center;">
       <div style="display: flex; justify-content: center; gap: 12px;">
-        <a href="yandexnavi://build_route_on_map?lat_to=${doctor.lat}&lon_to=${doctor.lng}" 
-           title="Яндекс.Навигатор" 
-           onclick="logDoctorView('${doctor.name}', 'navigator_clicked')">
+        <a href="#" 
+           onclick="openYandexNavigator(${doctor.lat}, ${doctor.lng}, '${doctor.name.replace(/'/g, "\\'")}'); return false;"
+           title="Яндекс.Навигатор">
           <img src="https://artemm77.github.io/graduates-map/yandex.png" alt="Навигатор" style="width: 50px; height: 50px;" />
         </a>
         <a href="https://wa.me/${doctor.phone.replace(/[^0-9]/g, '')}" target="_blank" 
            title="WhatsApp"
-           onclick="logDoctorView('${doctor.name}', 'whatsapp_clicked')">
+           onclick="logDoctorView('${doctor.name.replace(/'/g, "\\'")}', 'whatsapp_clicked')">
           <img src="https://artemm77.github.io/graduates-map/whatsapp.png" alt="WhatsApp" style="width: 50px; height: 50px;" />
         </a>
-        <a href="https://t.me/${doctor.telegram_username}" target="_blank" onclick="logDoctorView('${doctor.name}', 'telegram_clicked')">
+        <a href="https://t.me/${doctor.telegram_username}" target="_blank" onclick="logDoctorView('${doctor.name.replace(/'/g, "\\'")}', 'telegram_clicked')">
            <img src="https://artemm77.github.io/graduates-map/telegram.png" alt="Telegram" style="width: 50px; height: 50px;" />
         </a>
-
       </div>
     </div>
   `;
@@ -511,9 +509,6 @@ function createPopupHTML(doctor) {
     `;
   }
 }
-
 </script>
 </body>
 </html>
-
-
